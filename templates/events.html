@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+
+{% block title %}Events - ConnectNet{% endblock %}
+
+{% block content %}
+<div class="events-container">
+    <div class="events-header">
+        <h1>Events</h1>
+        <p>Discover and join events happening on campus</p>
+        <a href="{{ url_for('create_event') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Create Event
+        </a>
+    </div>
+
+    {% if my_events %}
+    <section class="events-section">
+        <h2>My Events</h2>
+        <div class="events-grid">
+            {% for event in my_events %}
+            <div class="event-card">
+                <div class="event-header">
+                    <h3>{{ event.title }}</h3>
+                    <span class="event-date">
+                        <i class="far fa-calendar"></i>
+                        {{ event.start_time.strftime('%B %d, %Y') }}
+                    </span>
+                </div>
+                <div class="event-details">
+                    <p class="event-time">
+                        <i class="far fa-clock"></i>
+                        {{ event.start_time.strftime('%I:%M %p') }} - {{ event.end_time.strftime('%I:%M %p') }}
+                    </p>
+                    {% if event.location %}
+                    <p class="event-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        {{ event.location }}
+                    </p>
+                    {% endif %}
+                    {% if event.description %}
+                    <p class="event-description">{{ event.description }}</p>
+                    {% endif %}
+                </div>
+                <div class="event-footer">
+                    <span class="event-attendees">
+                        <i class="fas fa-users"></i>
+                        {{ event.attendees|length }} attending
+                    </span>
+                    <form action="{{ url_for('unattend_event', event_id=event.id) }}" method="POST" class="event-action">
+                        <button type="submit" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancel Attendance
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if attending_events %}
+    <section class="events-section">
+        <h2>Events I'm Attending</h2>
+        <div class="events-grid">
+            {% for event in attending_events %}
+            <div class="event-card">
+                <div class="event-header">
+                    <h3>{{ event.title }}</h3>
+                    <span class="event-date">
+                        <i class="far fa-calendar"></i>
+                        {{ event.start_time.strftime('%B %d, %Y') }}
+                    </span>
+                </div>
+                <div class="event-details">
+                    <p class="event-time">
+                        <i class="far fa-clock"></i>
+                        {{ event.start_time.strftime('%I:%M %p') }} - {{ event.end_time.strftime('%I:%M %p') }}
+                    </p>
+                    {% if event.location %}
+                    <p class="event-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        {{ event.location }}
+                    </p>
+                    {% endif %}
+                    {% if event.description %}
+                    <p class="event-description">{{ event.description }}</p>
+                    {% endif %}
+                </div>
+                <div class="event-footer">
+                    <span class="event-attendees">
+                        <i class="fas fa-users"></i>
+                        {{ event.attendees|length }} attending
+                    </span>
+                    <form action="{{ url_for('unattend_event', event_id=event.id) }}" method="POST" class="event-action">
+                        <button type="submit" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancel Attendance
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="events-section">
+        <h2>Upcoming Events</h2>
+        <div class="events-grid">
+            {% for event in upcoming_events %}
+            <div class="event-card">
+                <div class="event-header">
+                    <h3>{{ event.title }}</h3>
+                    <span class="event-date">
+                        <i class="far fa-calendar"></i>
+                        {{ event.start_time.strftime('%B %d, %Y') }}
+                    </span>
+                </div>
+                <div class="event-details">
+                    <p class="event-time">
+                        <i class="far fa-clock"></i>
+                        {{ event.start_time.strftime('%I:%M %p') }} - {{ event.end_time.strftime('%I:%M %p') }}
+                    </p>
+                    {% if event.location %}
+                    <p class="event-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        {{ event.location }}
+                    </p>
+                    {% endif %}
+                    {% if event.description %}
+                    <p class="event-description">{{ event.description }}</p>
+                    {% endif %}
+                </div>
+                <div class="event-footer">
+                    <span class="event-attendees">
+                        <i class="fas fa-users"></i>
+                        {{ event.attendees|length }} attending
+                    </span>
+                    {% if event not in attending_events %}
+                    <form action="{{ url_for('attend_event', event_id=event.id) }}" method="POST" class="event-action">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check"></i> Attend
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.events-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+}
+
+.events-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.events-header h1 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+}
+
+.events-header p {
+    margin-bottom: var(--spacing-md);
+    color: var(--secondary-color);
+}
+
+.events-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.events-section h2 {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.event-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    transition: var(--transition-base);
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.event-header {
+    margin-bottom: var(--spacing-md);
+}
+
+.event-header h3 {
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-color);
+}
+
+.event-date {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.event-details {
+    margin-bottom: var(--spacing-md);
+}
+
+.event-time,
+.event-location {
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.event-description {
+    margin-top: var(--spacing-md);
+    color: var(--text-color);
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+.event-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+}
+
+.event-attendees {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.event-action {
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .events-container {
+        padding: var(--spacing-md);
+    }
+
+    .events-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+
+    .event-footer {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        align-items: stretch;
+    }
+}
+
+@media (max-width: 480px) {
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %} 

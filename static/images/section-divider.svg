@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="100" viewBox="0 0 1200 100" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        :root {
+            --divider-primary: var(--svg-primary);
+            --divider-secondary: var(--svg-secondary);
+            --divider-opacity-light: var(--svg-opacity-light);
+            --divider-opacity-medium: var(--svg-opacity-medium);
+        }
+    </style>
+    
+    <!-- Wave Pattern -->
+    <path d="M0 50 Q300 0 600 50 Q900 100 1200 50 L1200 100 L0 100 Z" 
+          fill="var(--divider-primary)" opacity="var(--divider-opacity-light)"/>
+    
+    <!-- Decorative Elements -->
+    <g>
+        <!-- Floating Circles -->
+        <g>
+            <circle cx="200" cy="30" r="5" fill="var(--divider-primary)" opacity="var(--divider-opacity-medium)">
+                <animate attributeName="cy" values="30;40;30" dur="4s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="400" cy="40" r="7" fill="var(--divider-primary)" opacity="var(--divider-opacity-medium)">
+                <animate attributeName="cy" values="40;30;40" dur="5s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="600" cy="35" r="6" fill="var(--divider-primary)" opacity="var(--divider-opacity-medium)">
+                <animate attributeName="cy" values="35;45;35" dur="4.5s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="800" cy="45" r="4" fill="var(--divider-primary)" opacity="var(--divider-opacity-medium)">
+                <animate attributeName="cy" values="45;35;45" dur="3.5s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="1000" cy="25" r="8" fill="var(--divider-primary)" opacity="var(--divider-opacity-medium)">
+                <animate attributeName="cy" values="25;35;25" dur="5.5s" repeatCount="indefinite"/>
+            </circle>
+        </g>
+        
+        <!-- Connection Lines -->
+        <g stroke="var(--divider-primary)" stroke-width="1" opacity="var(--divider-opacity-light)">
+            <path d="M200 30 Q400 40 600 35" fill="none"/>
+            <path d="M600 35 Q800 45 1000 25" fill="none"/>
+        </g>
+        
+        <!-- Dots -->
+        <g fill="var(--divider-primary)" opacity="var(--divider-opacity-medium)">
+            <circle cx="300" cy="50" r="2"/>
+            <circle cx="500" cy="50" r="2"/>
+            <circle cx="700" cy="50" r="2"/>
+            <circle cx="900" cy="50" r="2"/>
+        </g>
+    </g>
+</svg> 

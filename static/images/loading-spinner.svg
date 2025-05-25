@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        :root {
+            --spinner-primary: var(--svg-primary);
+            --spinner-secondary: var(--svg-secondary);
+            --spinner-opacity-light: var(--svg-opacity-light);
+            --spinner-opacity-medium: var(--svg-opacity-medium);
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: var(--spinner-opacity-medium); }
+            50% { opacity: var(--spinner-opacity-light); }
+        }
+    </style>
+    
+    <!-- Outer Ring -->
+    <circle cx="24" cy="24" r="20" 
+            fill="none" 
+            stroke="var(--spinner-primary)" 
+            stroke-width="4" 
+            stroke-dasharray="30 100"
+            opacity="var(--spinner-opacity-medium)">
+        <animateTransform attributeName="transform"
+                         type="rotate"
+                         from="0 24 24"
+                         to="360 24 24"
+                         dur="1.5s"
+                         repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Inner Ring -->
+    <circle cx="24" cy="24" r="14" 
+            fill="none" 
+            stroke="var(--spinner-secondary)" 
+            stroke-width="3" 
+            stroke-dasharray="20 80"
+            opacity="var(--spinner-opacity-medium)">
+        <animateTransform attributeName="transform"
+                         type="rotate"
+                         from="360 24 24"
+                         to="0 24 24"
+                         dur="1s"
+                         repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Center Dot -->
+    <circle cx="24" cy="24" r="4" 
+            fill="var(--spinner-primary)" 
+            opacity="var(--spinner-opacity-medium)">
+        <animate attributeName="opacity"
+                 values="var(--spinner-opacity-medium);var(--spinner-opacity-light);var(--spinner-opacity-medium)"
+                 dur="1s"
+                 repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Decorative Dots -->
+    <g>
+        <circle cx="24" cy="4" r="2" fill="var(--spinner-primary)" opacity="var(--spinner-opacity-medium)">
+            <animate attributeName="opacity"
+                     values="var(--spinner-opacity-medium);var(--spinner-opacity-light);var(--spinner-opacity-medium)"
+                     dur="1.5s"
+                     repeatCount="indefinite"/>
+        </circle>
+        <circle cx="44" cy="24" r="2" fill="var(--spinner-primary)" opacity="var(--spinner-opacity-medium)">
+            <animate attributeName="opacity"
+                     values="var(--spinner-opacity-medium);var(--spinner-opacity-light);var(--spinner-opacity-medium)"
+                     dur="1.5s"
+                     begin="0.5s"
+                     repeatCount="indefinite"/>
+        </circle>
+        <circle cx="24" cy="44" r="2" fill="var(--spinner-primary)" opacity="var(--spinner-opacity-medium)">
+            <animate attributeName="opacity"
+                     values="var(--spinner-opacity-medium);var(--spinner-opacity-light);var(--spinner-opacity-medium)"
+                     dur="1.5s"
+                     begin="1s"
+                     repeatCount="indefinite"/>
+        </circle>
+        <circle cx="4" cy="24" r="2" fill="var(--spinner-primary)" opacity="var(--spinner-opacity-medium)">
+            <animate attributeName="opacity"
+                     values="var(--spinner-opacity-medium);var(--spinner-opacity-light);var(--spinner-opacity-medium)"
+                     dur="1.5s"
+                     begin="1.5s"
+                     repeatCount="indefinite"/>
+        </circle>
+    </g>
+</svg> 

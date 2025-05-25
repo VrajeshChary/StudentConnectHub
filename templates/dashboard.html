@@ -1,0 +1,1450 @@
+{% extends "base.html" %} {% block content %}
+<div class="dashboard-container">
+  <div class="dashboard-background-pattern"></div>
+  <div class="dashboard-glow-effect"></div>
+
+  <aside class="dashboard-sidebar">
+    <div class="sidebar-graphic"></div>
+    <div class="sidebar-pattern"></div>
+    <div class="sidebar-glow"></div>
+    <img
+      src="{{ url_for('static', filename='images/dashboard-decoration.svg') }}"
+      alt=""
+      class="dashboard-decoration"
+    />
+    <div class="sidebar-section">
+      <h3>Filters</h3>
+      <form
+        class="filter-form"
+        method="POST"
+        action="{{ url_for('dashboard') }}"
+      >
+        <div class="form-group">
+          <label for="major">Major</label>
+          <select id="major" name="major">
+            <option value="">All Majors</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Electrical Engineering">
+              Electrical Engineering
+            </option>
+            <option value="Business Administration">
+              Business Administration
+            </option>
+            <option value="Fine Arts">Fine Arts</option>
+            <option value="Natural Sciences">Natural Sciences</option>
+            <option value="Mechanical Engineering">
+              Mechanical Engineering
+            </option>
+            <option value="Physics">Physics</option>
+            <option value="Economics">Economics</option>
+            <option value="Chemical Engineering">Chemical Engineering</option>
+            <option value="Architecture">Architecture</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="year">Year</label>
+          <select id="year" name="year">
+            <option value="">All Years</option>
+            <option value="Freshman">Freshman</option>
+            <option value="Sophomore">Sophomore</option>
+            <option value="Junior">Junior</option>
+            <option value="Senior">Senior</option>
+            <option value="Graduate">Graduate</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="interests">Interests</label>
+          <div class="interest-tags">
+            <label class="tag">
+              <input type="checkbox" name="interests" value="Programming" />
+              <span>Programming</span>
+            </label>
+            <label class="tag">
+              <input type="checkbox" name="interests" value="Research" />
+              <span>Research</span>
+            </label>
+            <label class="tag">
+              <input
+                type="checkbox"
+                name="interests"
+                value="Entrepreneurship"
+              />
+              <span>Entrepreneurship</span>
+            </label>
+            <label class="tag">
+              <input type="checkbox" name="interests" value="Design" />
+              <span>Design</span>
+            </label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+      </form>
+    </div>
+  </aside>
+
+  <main class="dashboard-main">
+    <div class="dashboard-header">
+      <div class="header-pattern"></div>
+      <div class="header-glow"></div>
+      <h1>Discover Students</h1>
+      <div class="view-options">
+        <button class="view-btn active" data-view="grid">
+          <i class="fas fa-th"></i>
+        </button>
+        <button class="view-btn" data-view="list">
+          <i class="fas fa-list"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="students-grid">
+      {% for user in users %}
+      <div class="student-card">
+        <div class="student-header">
+          <img
+            src="{{ user.profile_picture or url_for('static', filename='images/default-avatar.png') }}"
+            alt="{{ user.username }}"
+            class="student-avatar"
+          />
+          <div class="student-info">
+            <h3>{{ user.username }}</h3>
+            <p class="student-major">
+              {{ user.major or 'Major not specified' }}
+            </p>
+          </div>
+        </div>
+        <div class="student-bio">
+          <p>{{ user.bio or 'No bio available' }}</p>
+        </div>
+        <div class="student-actions">
+          <a
+            href="{{ url_for('chat', username=user.username) }}"
+            class="btn btn-primary"
+          >
+            <i class="fas fa-comment"></i> Message
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="pagination">
+      <button class="btn btn-secondary" id="load-more">Load More</button>
+    </div>
+  </main>
+
+  <aside class="chat-sidebar" id="chat-sidebar">
+    <div class="chat-sidebar-header">
+      <h3>Recent Chats</h3>
+      <button class="close-chat-sidebar">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="chat-list">
+      <!-- Chat list items will be dynamically populated -->
+    </div>
+  </aside>
+</div>
+{% endblock %} {% block extra_scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // View toggle functionality
+    const viewButtons = document.querySelectorAll(".view-btn");
+    const studentsGrid = document.querySelector(".students-grid");
+
+    viewButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        viewButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        studentsGrid.className = `students-${btn.dataset.view}`;
+      });
+    });
+
+    // Connect button functionality
+    // Removed or modified connect button logic since we are using temporary data
+
+    // Chat sidebar toggle
+    const chatLink = document.getElementById("chats-link"); // Assuming you have a chat link in your base.html
+    const chatSidebar = document.getElementById("chat-sidebar");
+    const closeChatSidebar = document.querySelector(".close-chat-sidebar");
+
+    // Add event listener for the chat link (if it exists)
+    if (chatLink) {
+      chatLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        chatSidebar.classList.toggle("active");
+      });
+    }
+
+    closeChatSidebar.addEventListener("click", () => {
+      chatSidebar.classList.remove("active");
+    });
+
+    // Load more functionality
+    const loadMoreBtn = document.getElementById("load-more");
+    // Temporarily disable load more as we are using a static list
+    if (loadMoreBtn) {
+        loadMoreBtn.style.display = 'none';
+    }
+
+
+     // Set initial filter values if form was submitted
+     {% if request.method == 'POST' %}
+         const urlParams = new URLSearchParams(window.location.search); // Use window.location.search directly
+         const selectedMajor = urlParams.get('major');
+         const selectedYear = urlParams.get('year');
+         // For interests, iterate through all checkboxes and check based on form data
+         const interestCheckboxes = document.querySelectorAll('input[name="interests"]');
+         interestCheckboxes.forEach(checkbox => {
+             if (urlParams.getAll('interests').includes(checkbox.value)) {
+                 checkbox.checked = true;
+             }
+         });
+
+         if (selectedMajor) {
+             document.getElementById('major').value = selectedMajor;
+         }
+         if (selectedYear) {
+             document.getElementById('year').value = selectedYear;
+         }
+
+     {% endif %}
+
+
+
+  });
+</script>
+{% endblock %} {% block extra_css %}
+<style>
+  :root {
+    /* Dashboard specific theme variables */
+    --dashboard-bg: linear-gradient(
+      180deg,
+      var(--background-color),
+      var(--background-color-light)
+    ); /* Gradient background */
+    --dashboard-sidebar-bg: linear-gradient(
+      180deg,
+      var(--card-bg),
+      var(--card-bg-light)
+    ); /* Gradient sidebar background */
+    --dashboard-header-bg: linear-gradient(
+      135deg,
+      var(--primary-color-darker),
+      var(--primary-color),
+      var(--secondary-color-darker)
+    ); /* Even more vibrant gradient */
+    --dashboard-header-text: var(--text-color-light);
+    --dashboard-card-bg: linear-gradient(
+      180deg,
+      var(--card-bg),
+      var(--card-bg-light)
+    ); /* Gradient card background */
+    --dashboard-card-border: 2px solid var(--border-color); /* Thicker border */
+    --dashboard-card-shadow: var(--shadow-2xl); /* Even stronger shadow */
+    --dashboard-avatar-border: 4px solid var(--primary-color); /* Even thicker avatar border */
+    --dashboard-avatar-shadow: var(--shadow-xl); /* Stronger avatar shadow */
+    --dashboard-filter-bg: var(
+      --background-color-light
+    ); /* Lighter filter background */
+    --dashboard-filter-border: var(
+      --border-color-dark
+    ); /* Darker filter border */
+    --dashboard-filter-text: var(--text-color-dark); /* Darker filter text */
+    --dashboard-chat-sidebar-bg: linear-gradient(
+      180deg,
+      var(--card-bg),
+      var(--card-bg-light)
+    ); /* Gradient chat sidebar background */
+    --dashboard-chat-sidebar-border: 2px solid var(--border-color); /* Thicker chat sidebar border */
+    --dashboard-section-divider: linear-gradient(
+      90deg,
+      transparent,
+      var(--primary-color-dark),
+      transparent
+    ); /* Darker gradient divider */
+    --dashboard-interest-tag-bg: var(
+      --background-color-light
+    ); /* Interest tag background */
+    --dashboard-interest-tag-border: 1px solid var(--border-color); /* Interest tag border */
+    --dashboard-interest-tag-hover-bg: linear-gradient(
+      45deg,
+      var(--primary-color),
+      var(--secondary-color)
+    ); /* Gradient hover */
+    --dashboard-interest-tag-hover-border: var(
+      --primary-color-dark
+    ); /* Gradient hover border */
+    --dashboard-interest-tag-checked-bg: linear-gradient(
+      45deg,
+      var(--primary-color-dark),
+      var(--secondary-color-dark)
+    ); /* Gradient checked */
+    --dashboard-interest-tag-checked-border: var(
+      --primary-color-darker
+    ); /* Gradient checked border */
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* Define 2xl shadow */
+    --shadow-xl-dark: 0 20px 25px -5px rgba(0, 0, 0, 0.5),
+      0 10px 10px -5px rgba(0, 0, 0, 0.2);
+    --shadow-2xl-dark: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+
+    /* New gradient variables */
+    --gradient-primary: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef);
+    --gradient-secondary: linear-gradient(135deg, #3b82f6, #2dd4bf, #10b981);
+    --gradient-accent: linear-gradient(135deg, #f59e0b, #ef4444, #ec4899);
+    --gradient-dark: linear-gradient(135deg, #1e293b, #0f172a, #020617);
+
+    /* Pattern colors */
+    --pattern-color-1: rgba(99, 102, 241, 0.1);
+    --pattern-color-2: rgba(139, 92, 246, 0.1);
+    --pattern-color-3: rgba(217, 70, 239, 0.1);
+
+    /* Glow effects */
+    --glow-primary: 0 0 50px rgba(99, 102, 241, 0.3);
+    --glow-secondary: 0 0 50px rgba(139, 92, 246, 0.3);
+    --glow-accent: 0 0 50px rgba(217, 70, 239, 0.3);
+  }
+
+  /* Apply dark mode variables */
+  [data-theme="dark"] {
+    --dashboard-bg: linear-gradient(
+      180deg,
+      var(--background-color-dark),
+      var(--background-color-darker)
+    ); /* Gradient background dark */
+    --dashboard-sidebar-bg: linear-gradient(
+      180deg,
+      var(--card-bg-dark),
+      var(--card-bg-darker)
+    ); /* Gradient sidebar background dark */
+    --dashboard-header-bg: linear-gradient(
+      135deg,
+      var(--secondary-color-darker),
+      var(--secondary-color),
+      var(--primary-color-darker)
+    ); /* Even more vibrant gradient dark mode */
+    --dashboard-header-text: var(--text-color-dark);
+    --dashboard-card-bg: linear-gradient(
+      180deg,
+      var(--card-bg-dark),
+      var(--card-bg-darker)
+    ); /* Gradient card background dark */
+    --dashboard-card-border: 2px solid var(--border-color-dark); /* Thicker border dark */
+    --dashboard-card-shadow: var(
+      --shadow-2xl-dark
+    ); /* Even stronger shadow dark mode */
+    --dashboard-avatar-border: 4px solid var(--secondary-color); /* Even thicker avatar border dark */
+    --dashboard-avatar-shadow: var(
+      --shadow-xl-dark
+    ); /* Stronger avatar shadow dark mode */
+    --dashboard-filter-bg: var(
+      --background-color-darker
+    ); /* Darker filter background */
+    --dashboard-filter-border: var(
+      --border-color-light
+    ); /* Lighter filter border */
+    --dashboard-filter-text: var(--text-color-dark);
+    --dashboard-chat-sidebar-bg: linear-gradient(
+      180deg,
+      var(--card-bg-dark),
+      var(--card-bg-darker)
+    ); /* Gradient chat sidebar background dark */
+    --dashboard-chat-sidebar-border: 2px solid var(--border-color-dark); /* Thicker chat sidebar border dark */
+    --dashboard-section-divider: linear-gradient(
+      90deg,
+      transparent,
+      var(--secondary-color-dark),
+      transparent
+    ); /* Darker gradient divider dark mode */
+    --dashboard-interest-tag-bg: var(--background-color-darker);
+    --dashboard-interest-tag-border: var(--border-color-dark);
+    --dashboard-interest-tag-hover-bg: linear-gradient(
+      45deg,
+      var(--secondary-color),
+      var(--primary-color)
+    );
+    --dashboard-interest-tag-hover-border: var(--secondary-color-dark);
+    --dashboard-interest-tag-checked-bg: linear-gradient(
+      45deg,
+      var(--secondary-color-dark),
+      var(--primary-color-dark)
+    );
+    --dashboard-interest-tag-checked-border: var(--secondary-color-darker);
+
+    /* New gradient variables */
+    --gradient-primary: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef);
+    --gradient-secondary: linear-gradient(135deg, #3b82f6, #2dd4bf, #10b981);
+    --gradient-accent: linear-gradient(135deg, #f59e0b, #ef4444, #ec4899);
+    --gradient-dark: linear-gradient(135deg, #1e293b, #0f172a, #020617);
+
+    /* Pattern colors */
+    --pattern-color-1: rgba(99, 102, 241, 0.2);
+    --pattern-color-2: rgba(139, 92, 246, 0.2);
+    --pattern-color-3: rgba(217, 70, 239, 0.2);
+
+    /* Glow effects */
+    --glow-primary: 0 0 50px rgba(99, 102, 241, 0.4);
+    --glow-secondary: 0 0 50px rgba(139, 92, 246, 0.4);
+    --glow-accent: 0 0 50px rgba(217, 70, 239, 0.4);
+  }
+
+  .dashboard-container {
+    display: flex;
+    padding: var(--spacing-lg);
+    gap: var(--spacing-lg);
+    background: var(--dashboard-bg);
+    min-height: 100vh;
+    transition: background 0.8s ease; /* Slower background transition for gradient */
+  }
+
+  .dashboard-sidebar {
+    flex: 0 0 320px; /* Even wider sidebar */
+    background: var(--dashboard-sidebar-bg); /* Use gradient background */
+    border-radius: var(--border-radius-xl); /* More rounded corners */
+    padding: var(--spacing-xl); /* More padding */
+    box-shadow: var(--shadow-xl); /* Stronger shadow */
+    position: relative;
+    overflow: hidden;
+    height: fit-content;
+    border: var(--dashboard-sidebar-border); /* Use theme variable border */
+    animation: slideInLeft 0.7s ease-out; /* Slower entry animation */
+    z-index: 1; /* Ensure sidebar is above main content background */
+  }
+
+  @keyframes slideInLeft {
+    0% {
+      transform: translateX(-100px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  /* Sidebar decorative graphic */
+  .sidebar-graphic {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("{{ url_for('static', filename='images/pattern-grid.svg') }}")
+      repeat;
+    opacity: 0.3; /* Even more visible opacity */
+    z-index: 0;
+    animation: graphic-pan 40s linear infinite; /* Even slower pan animation */
+  }
+
+  @keyframes graphic-pan {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 100% 100%;
+    }
+  }
+
+  .dashboard-sidebar > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .dashboard-decoration {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: var(--spacing-2xl); /* More space below decoration */
+    filter: drop-shadow(var(--shadow-lg)); /* Stronger shadow to decoration */
+  }
+
+  .sidebar-section h3 {
+    margin-top: 0;
+    margin-bottom: var(--spacing-lg); /* More space below header */
+    color: var(--primary-color-dark); /* Darker primary color */
+    border-bottom: 3px solid var(--dashboard-section-divider); /* Thicker gradient divider */
+    padding-bottom: var(--spacing-sm);
+    position: relative;
+    font-size: 1.4rem; /* Larger font size */
+    text-shadow: var(--shadow-text-sm); /* Subtle text shadow */
+  }
+
+  .filter-form .form-group {
+    margin-bottom: var(--spacing-lg); /* More space between form groups */
+    padding: var(--spacing-sm) 0; /* Add vertical padding */
+    border-bottom: 1px dashed var(--border-color); /* Add a dashed divider */
+  }
+  .filter-form .form-group:last-child {
+    border-bottom: none; /* Remove border from last group */
+  }
+  [data-theme="dark"] .filter-form .form-group {
+    border-bottom-color: var(--border-color-dark);
+  }
+
+  .filter-form label {
+    display: block;
+    margin-bottom: var(--spacing-sm); /* More space below label */
+    font-weight: bold;
+    color: var(--dashboard-filter-text);
+    transition: color 0.3s ease;
+    font-size: 1.1rem; /* Larger label font */
+  }
+
+  .filter-form select,
+  .filter-group input[type="checkbox"] + label {
+    width: 100%;
+    padding: var(--spacing-md); /* More padding */
+    border-radius: var(--border-radius); /* More rounded corners */
+    border: var(--dashboard-filter-border); /* Use theme variable border */
+    background-color: var(--dashboard-filter-bg);
+    color: var(--dashboard-filter-text);
+    transition: border-color 0.3s ease, background-color 0.3s ease,
+      color 0.3s ease, box-shadow 0.3s ease; /* Add box-shadow transition */
+    font-size: 1rem;
+    appearance: none; /* Remove default select arrow */
+    background-image: url(
+      "data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23{{ '000' if request.cookies.get('theme') == 'dark' else '333' }}"%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.1-6.4H18.5c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); /* Custom arrow */
+    background-repeat: no-repeat;
+    background-position: right 0.7em top 50%;
+    background-size: 0.65em auto;
+  }
+  [data-theme="dark"] .filter-form select {
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23{% if request.cookies.get('theme') == 'dark' %}CCC{% else %}333{% endif %}%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.1-6.4H18.5c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  }
+
+  .filter-form select:focus,
+  .filter-group input[type="checkbox"] + label:hover {
+    border-color: var(--primary-color-dark); /* Highlight on focus/hover */
+    box-shadow: var(--shadow-md); /* More prominent shadow on interaction */
+  }
+
+  [data-theme="dark"] .filter-form select:focus,
+  [data-theme="dark"] .filter-group input[type="checkbox"] + label:hover {
+    border-color: var(--secondary-color-dark);
+    box-shadow: var(--shadow-md-dark);
+  }
+
+  .interest-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
+  .interest-tags .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md); /* More padding */
+    background-color: var(--dashboard-interest-tag-bg);
+    border: var(
+      --dashboard-interest-tag-border
+    ); /* Use theme variable border */
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition for all properties */
+    position: relative;
+    overflow: hidden; /* Hide overflow from hover effect */
+    box-shadow: var(--shadow-xs); /* Subtle shadow */
+  }
+  [data-theme="dark"] .interest-tags .tag {
+    box-shadow: var(--shadow-xs-dark);
+  }
+
+  .interest-tags .tag::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(
+      --dashboard-interest-tag-hover-bg
+    ); /* Use theme variable hover background */
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s ease; /* Smooth opacity transition */
+    z-index: 0;
+  }
+  [data-theme="dark"] .interest-tags .tag::before {
+    background: var(--dashboard-interest-tag-hover-bg);
+  }
+
+  .interest-tags .tag span {
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s ease; /* Smooth color transition for text */
+  }
+
+  .interest-tags .tag input[type="checkbox"] {
+    margin-right: var(--spacing-xs);
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2; /* Ensure clickable */
+  }
+
+  .interest-tags .tag:hover::before {
+    opacity: 1; /* Show gradient on hover */
+  }
+  .interest-tags .tag:hover span {
+    color: var(--primary-color-dark); /* Darken text on hover */
+  }
+  [data-theme="dark"] .interest-tags .tag:hover span {
+    color: var(--secondary-color-dark); /* Darken text on hover dark mode */
+  }
+
+  .interest-tags .tag input[type="checkbox"]:checked + label {
+    background: var(
+      --dashboard-interest-tag-checked-bg
+    ); /* Use theme variable checked background */
+    color: var(--text-color-light);
+    border: var(
+      --dashboard-interest-tag-checked-border
+    ); /* Use theme variable checked border */
+    box-shadow: var(--shadow-md); /* Add shadow when checked */
+  }
+
+  [data-theme="dark"]
+    .interest-tags
+    .tag
+    input[type="checkbox"]:checked
+    + label {
+    background: var(--dashboard-interest-tag-checked-bg);
+    color: var(--text-color-dark);
+    border: var(--dashboard-interest-tag-checked-border);
+    box-shadow: var(--shadow-md-dark);
+  }
+
+  .interest-tags .tag input[type="checkbox"]:checked + label::before {
+    opacity: 1; /* Ensure gradient is visible when checked */
+  }
+  .interest-tags .tag input[type="checkbox"]:checked + label span {
+    color: var(--text-color-light); /* Ensure text is light when checked */
+  }
+  [data-theme="dark"]
+    .interest-tags
+    .tag
+    input[type="checkbox"]:checked
+    + label
+    span {
+    color: var(
+      --text-color-dark
+    ); /* Ensure text is dark when checked in dark mode */
+  }
+
+  #apply-filters-btn {
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-lg); /* More padding */
+    font-size: 1.1rem;
+    border-radius: var(--border-radius);
+    background: linear-gradient(
+      90deg,
+      var(--primary-color),
+      var(--primary-color-dark)
+    );
+    color: var(--text-color-light);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md); /* Add shadow */
+  }
+  [data-theme="dark"] #apply-filters-btn {
+    background: linear-gradient(
+      90deg,
+      var(--secondary-color),
+      var(--secondary-color-dark)
+    );
+    box-shadow: var(--shadow-md-dark);
+  }
+
+  #apply-filters-btn:hover {
+    background: linear-gradient(
+      90deg,
+      var(--primary-color-dark),
+      var(--primary-color)
+    );
+    box-shadow: var(--shadow-lg); /* Larger shadow on hover */
+    transform: translateY(-2px); /* Subtle lift */
+  }
+  [data-theme="dark"] #apply-filters-btn:hover {
+    background: linear-gradient(
+      90deg,
+      var(--secondary-color-dark),
+      var(--secondary-color)
+    );
+    box-shadow: var(--shadow-lg-dark);
+  }
+  #apply-filters-btn:active {
+    transform: translateY(0); /* Press down effect */
+    box-shadow: var(--shadow-sm); /* Smaller shadow when active */
+  }
+  [data-theme="dark"] #apply-filters-btn:active {
+    box-shadow: var(--shadow-sm-dark);
+  }
+
+  .dashboard-main {
+    flex-grow: 1;
+    animation: slideInRight 0.7s ease-out; /* Slower entry animation */
+    z-index: 1; /* Ensure main content is above background graphic */
+  }
+  @keyframes slideInRight {
+    0% {
+      transform: translateX(100px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--dashboard-header-bg);
+    color: var(--dashboard-header-text);
+    border-radius: var(--border-radius-xl); /* More rounded corners */
+    box-shadow: var(--shadow-xl); /* Stronger shadow */
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dashboard-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("{{ url_for('static', filename='images/pattern-dots.svg') }}")
+      repeat;
+    opacity: 0.25; /* Even more visible opacity */
+    z-index: 0;
+    animation: graphic-rotate 20s linear infinite; /* Add rotation animation */
+  }
+  @keyframes graphic-rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .dashboard-header > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .dashboard-header h1 {
+    margin: 0;
+    color: var(--dashboard-header-text);
+    font-size: 3.5rem; /* Even larger font size */
+    text-shadow: var(--shadow-text-lg); /* More prominent text shadow */
+    transition: color 0.3s ease; /* Smooth color transition */
+  }
+  [data-theme="dark"] .dashboard-header h1 {
+    text-shadow: var(--shadow-text-lg-dark);
+  }
+
+  .view-options .view-btn {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition for all properties */
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    box-shadow: var(--shadow-xs); /* Subtle shadow */
+  }
+
+  [data-theme="dark"] .view-options .view-btn {
+    background-color: var(--background-color-dark);
+    border-color: var(--border-color-dark);
+    color: var(--text-color-dark);
+    box-shadow: var(--shadow-xs-dark);
+  }
+
+  .view-options .view-btn.active {
+    background-color: var(--primary-color); /* Primary color for active */
+    color: var(--text-color-light);
+    border-color: var(--primary-color-dark);
+    box-shadow: var(--shadow-sm); /* Active state shadow */
+  }
+
+  [data-theme="dark"] .view-options .view-btn.active {
+    background-color: var(
+      --secondary-color
+    ); /* Secondary color for active in dark mode */
+    color: var(--text-color-dark);
+    border-color: var(--secondary-color-dark);
+    box-shadow: var(--shadow-sm-dark);
+  }
+
+  .view-options .view-btn:hover:not(.active) {
+    background-color: var(--primary-color-light); /* Lighter primary on hover */
+    color: var(--primary-color-dark);
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-md); /* More prominent shadow on hover */
+    transform: translateY(-2px); /* Subtle lift */
+  }
+
+  [data-theme="dark"] .view-options .view-btn:hover:not(.active) {
+    background-color: var(
+      --secondary-color-dark
+    ); /* Darker secondary on hover */
+    color: var(--text-color-dark);
+    border-color: var(--secondary-color);
+    box-shadow: var(
+      --shadow-md-dark
+    ); /* More prominent shadow on hover dark mode */
+    transform: translateY(-2px);
+  }
+  .view-options .view-btn:active {
+    transform: translateY(0); /* Press down effect */
+    box-shadow: var(--shadow-xs); /* Smaller shadow when active */
+  }
+  [data-theme="dark"] .view-options .view-btn:active {
+    box-shadow: var(--shadow-xs-dark);
+  }
+
+  .students-grid {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(300px, 1fr)
+    ); /* Slightly wider cards */
+    gap: var(--spacing-md);
+  }
+
+  .student-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .student-card {
+    background: var(--gradient-primary);
+    border-radius: var(--border-radius-lg); /* More rounded corners */
+    padding: var(--spacing-lg); /* More padding */
+    box-shadow: var(--shadow-2xl);
+    border: var(--dashboard-card-border); /* Use theme variable border */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    position: relative;
+    overflow: hidden;
+    isolation: isolate; /* Create new stacking context */
+  }
+
+  .student-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 50%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+  }
+
+  .student-card:hover::before {
+    opacity: 1;
+    animation: cardShine 2s ease-in-out infinite;
+  }
+
+  .student-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md); /* More space below header */
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px dashed var(--border-color); /* Thicker dashed divider */
+    z-index: 1; /* Ensure header is above card graphics */
+  }
+
+  [data-theme="dark"] .student-header {
+    border-bottom-color: var(--border-color-dark);
+  }
+
+  .students-list .student-header {
+    margin-bottom: 0;
+    flex-grow: 1;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .student-avatar {
+    width: 90px; /* Even larger avatar */
+    height: 90px; /* Even larger avatar */
+    border-radius: 50%;
+    border: var(--dashboard-avatar-border); /* Use theme variable border */
+    box-shadow: var(--dashboard-avatar-shadow);
+    flex-shrink: 0;
+    transition: transform 0.3s ease; /* Add hover animation */
+  }
+  .student-card:hover .student-avatar {
+    transform: scale(1.1); /* Grow avatar on card hover */
+  }
+
+  .students-list .student-avatar {
+    width: 70px;
+    height: 70px;
+  }
+
+  .student-info h3 {
+    margin: 0 0 var(--spacing-xs) 0;
+    color: var(--primary-color-dark); /* Dark primary color for names */
+    font-size: 1.4rem; /* Even larger name */
+    text-shadow: var(--shadow-text); /* More prominent text shadow */
+    transition: color 0.3s ease; /* Smooth color transition */
+  }
+
+  [data-theme="dark"] .student-info h3 {
+    color: var(--secondary-color-light); /* Lighter color in dark mode */
+  }
+
+  .student-info p {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-color);
+  }
+
+  .student-bio {
+    margin-bottom: var(--spacing-md);
+    font-size: 1rem;
+    color: var(--text-color);
+    opacity: 0.95;
+    flex-grow: 1;
+    line-height: 1.6; /* Increased line height for readability */
+    z-index: 1; /* Ensure bio is above card graphics */
+  }
+
+  .students-list .student-bio {
+    margin-bottom: 0;
+    max-width: 400px;
+  }
+
+  .student-actions {
+    margin-top: auto;
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: flex-end;
+    align-items: center;
+    z-index: 1; /* Ensure actions are above card graphics */
+  }
+
+  .students-list .student-actions {
+    margin-top: 0;
+    flex-shrink: 0;
+  }
+
+  .student-actions .btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 1rem;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s ease, transform 0.3s ease,
+      box-shadow 0.3s ease; /* Add box-shadow transition */
+  }
+
+  .student-actions .btn:hover {
+    transform: translateY(-3px); /* More pronounced lift */
+    box-shadow: var(--shadow-sm); /* Subtle shadow on hover */
+  }
+  [data-theme="dark"] .student-actions .btn:hover {
+    box-shadow: var(--shadow-sm-dark);
+  }
+  .student-actions .btn:active {
+    transform: translateY(0); /* Press down effect */
+    box-shadow: var(--shadow-xs); /* Smaller shadow when active */
+  }
+  [data-theme="dark"] .student-actions .btn:active {
+    box-shadow: var(--shadow-xs-dark);
+  }
+
+  .pagination {
+    text-align: center;
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .pagination .btn {
+    padding: var(--spacing-md) var(--spacing-xl); /* Larger pagination buttons */
+    font-size: 1.2rem; /* Larger pagination font */
+    border-radius: var(--border-radius);
+    background: linear-gradient(
+      90deg,
+      var(--primary-color-light),
+      var(--primary-color)
+    );
+    color: var(--text-color-light);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md); /* Add shadow */
+  }
+  [data-theme="dark"] .pagination .btn {
+    background: linear-gradient(
+      90deg,
+      var(--secondary-color-light),
+      var(--secondary-color)
+    );
+    box-shadow: var(--shadow-md-dark);
+  }
+
+  .pagination .btn:hover {
+    background: linear-gradient(
+      90deg,
+      var(--primary-color),
+      var(--primary-color-dark)
+    );
+    box-shadow: var(--shadow-lg); /* Larger shadow on hover */
+    transform: translateY(-2px); /* Subtle lift */
+  }
+  [data-theme="dark"] .pagination .btn:hover {
+    background: linear-gradient(
+      90deg,
+      var(--secondary-color),
+      var(--secondary-color-dark)
+    );
+    box-shadow: var(--shadow-lg-dark);
+  }
+  .pagination .btn:active {
+    transform: translateY(0); /* Press down effect */
+    box-shadow: var(--shadow-sm); /* Smaller shadow when active */
+  }
+  [data-theme="dark"] .pagination .btn:active {
+    box-shadow: var(--shadow-sm-dark);
+  }
+
+  .chat-sidebar {
+    flex: 0 0 350px;
+    background: var(--dashboard-chat-sidebar-bg); /* Use gradient background */
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl) var(--spacing-lg);
+    box-shadow: var(--shadow-xl); /* Stronger shadow */
+    position: fixed;
+    top: 0;
+    right: -350px;
+    height: 100%;
+    transition: right 0.4s ease-in-out;
+    z-index: 1000;
+    border-left: var(
+      --dashboard-chat-sidebar-border
+    ); /* Use theme variable border */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-sidebar.active {
+    right: 0;
+  }
+
+  .chat-sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--border-color); /* Thicker border */
+  }
+
+  .chat-sidebar-header h3 {
+    margin: 0;
+    color: var(--primary-color-dark); /* Darker primary color */
+    font-size: 1.4rem; /* Larger font size */
+    text-shadow: var(--shadow-text-sm); /* Subtle text shadow */
+  }
+  [data-theme="dark"] .chat-sidebar-header h3 {
+    color: var(
+      --secondary-color-dark
+    ); /* Darker secondary color in dark mode */
+  }
+
+  .close-chat-sidebar {
+    background: none;
+    border: none;
+    font-size: 1.8rem; /* Even larger close icon */
+    cursor: pointer;
+    color: var(--text-color);
+    transition: color 0.3s ease, transform 0.3s ease; /* Add transform transition */
+  }
+
+  .close-chat-sidebar:hover {
+    color: var(--primary-color); /* Primary color on hover */
+    transform: rotate(90deg); /* Rotate on hover */
+  }
+  [data-theme="dark"] .close-chat-sidebar:hover {
+    color: var(--secondary-color); /* Secondary color on hover in dark mode */
+    transform: rotate(90deg);
+  }
+
+  .chat-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: var(--spacing-xs);
+  }
+
+  /* Custom scrollbar for chat list */
+  .chat-list::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .chat-list::-webkit-scrollbar-track {
+    background: var(--background-color); /* Track color */
+    border-radius: 10px;
+  }
+  [data-theme="dark"] .chat-list::-webkit-scrollbar-track {
+    background: var(--background-color-dark);
+  }
+
+  .chat-list::-webkit-scrollbar-thumb {
+    background: var(--primary-color-light); /* Thumb color */
+    border-radius: 10px;
+  }
+  [data-theme="dark"] .chat-list::-webkit-scrollbar-thumb {
+    background: var(--secondary-color-dark);
+  }
+
+  .chat-list::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color); /* Thumb color on hover */
+  }
+  [data-theme="dark"] .chat-list::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 1024px) {
+    .dashboard-container {
+      flex-direction: column;
+      padding: var(--spacing-md);
+    }
+
+    .dashboard-sidebar {
+      flex: none;
+      width: 100%;
+      margin-bottom: var(--spacing-md);
+      height: auto;
+    }
+
+    .chat-sidebar {
+      flex: none;
+      width: 300px;
+      right: -300px;
+    }
+
+    .chat-sidebar.active {
+      right: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--spacing-sm);
+    }
+
+    .view-options {
+      align-self: flex-end;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .dashboard-container {
+      padding: var(--spacing-sm);
+    }
+
+    .students-grid,
+    .student-list {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+
+    .students-list .student-card {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .students-list .student-header {
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-xs);
+    }
+
+    .students-list .student-avatar {
+      width: 70px;
+      height: 70px;
+    }
+
+    .students-list .student-info h3,
+    .students-list .student-info p {
+      text-align: center;
+    }
+
+    .students-list .student-bio {
+      text-align: center;
+    }
+
+    .students-list .student-actions {
+      justify-content: center;
+      width: 100%;
+    }
+
+    .student-actions .btn {
+      flex-grow: 1;
+    }
+
+    .chat-sidebar {
+      width: 100%;
+      right: -100%;
+    }
+
+    .chat-sidebar.active {
+      right: 0;
+    }
+  }
+
+  /* Dashboard background effects */
+  .dashboard-background-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at 20% 20%,
+        var(--pattern-color-1) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 80%,
+        var(--pattern-color-2) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 50% 50%,
+        var(--pattern-color-3) 0%,
+        transparent 50%
+      );
+    opacity: 0.5;
+    z-index: 0;
+    animation: patternFloat 20s ease-in-out infinite;
+  }
+
+  .dashboard-glow-effect {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at 30% 30%,
+        var(--glow-primary),
+        transparent 70%
+      ),
+      radial-gradient(circle at 70% 70%, var(--glow-secondary), transparent 70%);
+    opacity: 0.3;
+    z-index: 0;
+    animation: glowPulse 8s ease-in-out infinite;
+  }
+
+  /* Sidebar enhancements */
+  .sidebar-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        45deg,
+        var(--pattern-color-1) 25%,
+        transparent 25%
+      ),
+      linear-gradient(-45deg, var(--pattern-color-2) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, var(--pattern-color-3) 75%),
+      linear-gradient(-45deg, transparent 75%, var(--pattern-color-1) 75%);
+    background-size: 20px 20px;
+    opacity: 0.1;
+    z-index: 0;
+    animation: patternMove 30s linear infinite;
+  }
+
+  .sidebar-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      circle at 50% 0%,
+      var(--glow-primary),
+      transparent 70%
+    );
+    opacity: 0.2;
+    z-index: 0;
+    animation: glowFloat 6s ease-in-out infinite;
+  }
+
+  /* Header enhancements */
+  .header-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--pattern-color-1) 0px,
+      var(--pattern-color-1) 2px,
+      transparent 2px,
+      transparent 8px
+    );
+    opacity: 0.15;
+    z-index: 0;
+    animation: patternSlide 20s linear infinite;
+  }
+
+  .header-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      circle at 0% 50%,
+      var(--glow-accent),
+      transparent 70%
+    );
+    opacity: 0.2;
+    z-index: 0;
+    animation: glowMove 8s ease-in-out infinite;
+  }
+
+  /* Animations */
+  @keyframes patternFloat {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+    25% {
+      transform: translate(-10px, 10px);
+    }
+    50% {
+      transform: translate(10px, -10px);
+    }
+    75% {
+      transform: translate(-10px, -10px);
+    }
+  }
+
+  @keyframes glowPulse {
+    0%,
+    100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes patternMove {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 40px 40px;
+    }
+  }
+
+  @keyframes glowFloat {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes patternSlide {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 20px 20px;
+    }
+  }
+
+  @keyframes glowMove {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(20px);
+    }
+  }
+
+  @keyframes cardShine {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Enhanced filter form */
+  .filter-form select {
+    background: var(--gradient-secondary);
+    border: 2px solid transparent;
+    box-shadow: var(--glow-secondary);
+    transition: all 0.3s ease;
+  }
+
+  .filter-form select:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--glow-primary);
+  }
+
+  /* Enhanced interest tags */
+  .interest-tags .tag {
+    background: var(--gradient-accent);
+    border: none;
+    box-shadow: var(--glow-accent);
+    transition: all 0.3s ease;
+  }
+
+  .interest-tags .tag:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: var(--glow-primary);
+  }
+
+  /* Dark mode adjustments */
+  [data-theme="dark"] .student-card {
+    background: var(--gradient-dark);
+  }
+
+  [data-theme="dark"] .filter-form select {
+    background: var(--gradient-dark);
+  }
+
+  [data-theme="dark"] .interest-tags .tag {
+    background: var(--gradient-dark);
+  }
+</style>
+{% endblock %}

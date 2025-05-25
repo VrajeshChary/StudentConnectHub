@@ -1,0 +1,306 @@
+{% extends "base.html" %} {% block title %}Network - ConnectNet{% endblock %} {%
+block content %}
+<div class="network-container">
+  <header class="network-header">
+    <h1>Your Network</h1>
+    <p>Connect with students who share your interests and goals</p>
+  </header>
+
+  <!-- Filter Section -->
+  <section class="network-filters">
+    <h2>Find Students</h2>
+    <div class="filter-form">
+      <div class="filter-group">
+        <label for="major-filter">Major</label>
+        <select id="major-filter">
+          <option value="all">All Majors</option>
+          <!-- Options will be populated dynamically -->
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="interests-filter">Interests</label>
+        <div class="interests-checkboxes">
+          <label
+            ><input type="checkbox" value="Programming" /> Programming</label
+          >
+          <label><input type="checkbox" value="Research" /> Research</label>
+          <label
+            ><input type="checkbox" value="Entrepreneurship" />
+            Entrepreneurship</label
+          >
+          <label><input type="checkbox" value="Design" /> Design</label>
+          <!-- More interests can be added here -->
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="apply-filters-btn">
+        Apply Filters
+      </button>
+    </div>
+  </section>
+
+  {% if similar_major_users %}
+  <section class="network-section">
+    <h2>Students in Your Major</h2>
+    <div class="students-grid">
+      {% for user in similar_major_users %}
+      <div class="student-card">
+        <img
+          src="https://ui-avatars.com/api/?name={{ user.username }}"
+          alt="{{ user.username }}"
+          class="student-avatar"
+        />
+        <h3>{{ user.username }}</h3>
+        <p class="student-major">{{ user.major }}</p>
+        {% if user.bio %}
+        <p class="student-bio">{{ user.bio }}</p>
+        {% endif %}
+        <div class="student-actions">
+          <a
+            href="{{ url_for('chat', username=user.username) }}"
+            class="btn btn-primary"
+          >
+            <i class="fas fa-comment"></i> Message
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="network-section">
+    <h2>All Students</h2>
+    <div class="students-grid">
+      {% for user in users %}
+      <div class="student-card">
+        <img
+          src="https://ui-avatars.com/api/?name={{ user.username }}"
+          alt="{{ user.username }}"
+          class="student-avatar"
+        />
+        <h3>{{ user.username }}</h3>
+        {% if user.major %}
+        <p class="student-major">{{ user.major }}</p>
+        {% endif %} {% if user.bio %}
+        <p class="student-bio">{{ user.bio }}</p>
+        {% endif %}
+        <div class="student-actions">
+          <a
+            href="{{ url_for('chat', username=user.username) }}"
+            class="btn btn-primary"
+          >
+            <i class="fas fa-comment"></i> Message
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %} {% block extra_css %}
+<style>
+  .network-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+  }
+
+  .network-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    position: relative; /* Needed for absolute positioning of graphic */
+    overflow: hidden; /* Hide overflow from graphic */
+    padding: var(--spacing-xl) var(--spacing-lg); /* Add padding for visual balance */
+    background: linear-gradient(
+      135deg,
+      var(--primary-color-dark),
+      var(--primary-color)
+    ); /* Gradient background */
+    color: var(--text-color-light); /* Light text for dark background */
+    border-radius: var(--border-radius); /* Rounded corners */
+  }
+
+  .network-header h1 {
+    color: var(--text-color-light); /* Ensure header is visible */
+    margin-bottom: var(--spacing-sm);
+    font-size: 2.5rem; /* Larger header */
+  }
+
+  .network-header p {
+    color: var(--text-color-light); /* Ensure paragraph is visible */
+    font-size: 1.1rem;
+  }
+
+  /* Decorative Graphic */
+  .header-graphic {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("{{ url_for('static', filename='images/pattern-dots.svg') }}")
+      repeat; /* Use a pattern */
+    opacity: 0.1; /* Subtle opacity */
+    z-index: 0; /* Behind content */
+  }
+
+  .network-header > * {
+    position: relative; /* Ensure content is above graphic */
+    z-index: 1;
+  }
+
+  .network-filters {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    box-shadow: var(--shadow-md); /* Add shadow for depth */
+  }
+
+  .network-filters h2 {
+    margin-top: 0;
+    margin-bottom: var(--spacing-lg);
+    color: var(--primary-color);
+  }
+
+  .filter-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    align-items: flex-end;
+  }
+
+  .filter-group label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: bold;
+    color: var(--text-color);
+  }
+
+  .filter-group select,
+  .filter-group input[type="checkbox"] + label {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+
+  .interests-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
+  .interests-checkboxes label {
+    display: inline-flex;
+    align-items: center;
+    font-weight: normal;
+    margin-bottom: 0; /* Reset margin */
+  }
+
+  .interests-checkboxes input[type="checkbox"] {
+    margin-right: var(--spacing-xs);
+  }
+
+  #apply-filters-btn {
+    width: auto; /* Adjust button width */
+  }
+
+  .network-section {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .network-section h2 {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--border-color);
+    color: var(--text-color);
+  }
+
+  .students-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  .student-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    text-align: center;
+    transition: var(--transition-base);
+    box-shadow: var(--shadow-sm); /* Subtle shadow */
+    border: 1px solid var(--border-color); /* Add a border */
+  }
+
+  .student-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color); /* Highlight on hover */
+  }
+
+  .student-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: var(--spacing-md);
+    border: 3px solid var(--primary-color); /* Add a colorful border to avatar */
+    box-shadow: var(--shadow-sm); /* Add shadow to avatar */
+  }
+
+  .student-card h3 {
+    margin-bottom: var(--spacing-xs);
+    color: var(--primary-color-dark); /* Use dark primary color for names */
+  }
+
+  .student-major,
+  .student-year {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-xs);
+    font-size: 0.95rem;
+  }
+
+  .student-bio {
+    margin: var(--spacing-md) 0;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.9; /* Slightly less opaque */
+  }
+
+  .student-actions {
+    margin-top: var(--spacing-md);
+  }
+
+  .student-actions .btn {
+    width: 100%; /* Make button full width */
+  }
+
+  @media (max-width: 768px) {
+    .network-container {
+      padding: var(--spacing-md);
+    }
+
+    .students-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+  }
+
+  @media (max-width: 480px) {
+    .students-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .filter-form {
+      grid-template-columns: 1fr;
+    }
+
+    #apply-filters-btn {
+      width: 100%;
+    }
+  }
+</style>
+{% endblock %}

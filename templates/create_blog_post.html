@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block title %}Create Blog Post - ConnectNet{% endblock %}
+
+{% block content %}
+<div class="create-post-container">
+    <div class="create-post-header">
+        <h1>Create New Blog Post</h1>
+        <p class="subtitle">Share your thoughts and experiences with the community</p>
+    </div>
+
+    <form method="POST" class="create-post-form">
+        <div class="form-group">
+            <label for="title">Post Title</label>
+            <input type="text" id="title" name="title" required
+                   placeholder="Enter your post title"
+                   class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea id="content" name="content" rows="12" required
+                      placeholder="Write your post content here..."
+                      class="form-control"></textarea>
+            <div class="formatting-help">
+                <h4>Formatting Tips:</h4>
+                <ul>
+                    <li>Use <code># Heading</code> for headings</li>
+                    <li>Use <code>*text*</code> for <em>italics</em></li>
+                    <li>Use <code>**text**</code> for <strong>bold</strong></li>
+                    <li>Use <code>- item</code> for bullet points</li>
+                    <li>Use <code>> text</code> for blockquotes</li>
+                    <li>Use <code>`code`</code> for inline code</li>
+                    <li>Use <code>```code```</code> for code blocks</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a href="{{ url_for('blog') }}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> Publish Post
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.create-post-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-xl);
+}
+
+.create-post-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.create-post-header h1 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+    font-size: 2.5rem;
+}
+
+.create-post-header .subtitle {
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+}
+
+.create-post-form {
+    background-color: var(--card-bg);
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.form-group {
+    margin-bottom: var(--spacing-xl);
+}
+
+label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: var(--transition-base);
+    font-family: inherit;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color-light);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 300px;
+    line-height: 1.6;
+}
+
+.formatting-help {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--bg-color);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.formatting-help h4 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-sm);
+}
+
+.formatting-help ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--spacing-xs);
+}
+
+.formatting-help li {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.formatting-help code {
+    background-color: var(--card-bg);
+    padding: 0.2em 0.4em;
+    border-radius: var(--border-radius);
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+}
+
+@media (max-width: 768px) {
+    .create-post-container {
+        padding: var(--spacing-lg);
+    }
+
+    .create-post-header h1 {
+        font-size: 2rem;
+    }
+
+    .create-post-form {
+        padding: var(--spacing-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .create-post-container {
+        padding: var(--spacing-md);
+    }
+
+    .create-post-form {
+        padding: var(--spacing-md);
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const contentTextarea = document.getElementById('content');
+    const titleInput = document.getElementById('title');
+
+    // Auto-resize textarea
+    contentTextarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
+
+    // Preview formatting
+    contentTextarea.addEventListener('input', function() {
+        // You could add a live preview feature here
+    });
+});
+</script>
+{% endblock %} 

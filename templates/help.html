@@ -1,0 +1,714 @@
+{% extends "base.html" %} {% block title %}Help Center - ConnectNet{% endblock
+%} {% block content %}
+<div class="help-container">
+  <div class="decorative-circle decorative-circle-1"></div>
+  <div class="decorative-circle decorative-circle-2"></div>
+  <div class="decorative-circle decorative-circle-3"></div>
+
+  <div class="help-header">
+    <h1>Help Center</h1>
+    <p class="subtitle">Everything you need to know about using ConnectNet</p>
+  </div>
+
+  <div class="help-content">
+    <div class="help-search">
+      <input
+        type="text"
+        id="helpSearch"
+        placeholder="Search help topics..."
+        class="search-input"
+      />
+      <i class="fas fa-search search-icon"></i>
+    </div>
+
+    <div class="help-sections">
+      <section class="help-section" id="getting-started">
+        <h2><i class="fas fa-rocket section-icon"></i> Getting Started</h2>
+        <div class="help-cards">
+          <div class="help-card">
+            <h3>Creating an Account</h3>
+            <p>
+              Learn how to create your ConnectNet account and set up your
+              profile.
+            </p>
+            <ul>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Click the
+                "Register" button in the top navigation
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Fill in your
+                username, email, and password
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Complete your
+                profile with your major and year
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Add a bio to help
+                others get to know you
+              </li>
+            </ul>
+          </div>
+          <div class="help-card">
+            <h3>Profile Setup</h3>
+            <p>Make the most of your profile to connect with others.</p>
+            <ul>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Add your academic
+                information
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Write a compelling
+                bio
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Update your
+                profile picture
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Set your privacy
+                preferences
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="help-section" id="networking">
+        <h2><i class="fas fa-network-wired section-icon"></i> Networking</h2>
+        <div class="help-cards">
+          <div class="help-card">
+            <h3>Finding Connections</h3>
+            <p>Discover and connect with other students.</p>
+            <ul>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Use the Network
+                page to find students
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Filter by major or
+                year
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> View similar
+                interests
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Send connection
+                requests
+              </li>
+            </ul>
+          </div>
+          <div class="help-card">
+            <h3>Messaging</h3>
+            <p>Communicate with your connections.</p>
+            <ul>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Start private
+                conversations
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Share files and
+                resources
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Use emojis and
+                formatting
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Manage your
+                message notifications
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="help-section" id="events">
+        <h2><i class="fas fa-calendar-alt section-icon"></i> Events</h2>
+        <div class="help-cards">
+          <div class="help-card">
+            <h3>Creating Events</h3>
+            <p>Organize and manage events for the community.</p>
+            <ul>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Set event details
+                and location
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Choose date and
+                time
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Add event
+                description
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Manage attendee
+                list
+              </li>
+            </ul>
+          </div>
+          <div class="help-card">
+            <h3>Attending Events</h3>
+            <p>Join and participate in community events.</p>
+            <ul>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Browse upcoming
+                events
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> RSVP to events
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Get event
+                reminders
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Share events with
+                others
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="help-section" id="blog">
+        <h2><i class="fas fa-blog section-icon"></i> Blog</h2>
+        <div class="help-cards">
+          <div class="help-card">
+            <h3>Writing Posts</h3>
+            <p>Share your thoughts and experiences with the community.</p>
+            <ul>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Create new blog
+                posts
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Use markdown
+                formatting
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Add images and
+                links
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Edit and update
+                posts
+              </li>
+            </ul>
+          </div>
+          <div class="help-card">
+            <h3>Reading Posts</h3>
+            <p>Discover and engage with community content.</p>
+            <ul>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Browse the blog
+                feed
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Filter by
+                categories
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Save favorite
+                posts
+              </li>
+              <li>
+                <i class="fas fa-check-circle list-icon"></i> Share posts with
+                others
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="help-section" id="faq">
+        <h2>
+          <i class="fas fa-question-circle section-icon"></i> Frequently Asked
+          Questions
+        </h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <h3>How do I reset my password?</h3>
+            <p>
+              Click the "Forgot Password" link on the login page and follow the
+              instructions sent to your email.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Can I change my username?</h3>
+            <p>
+              Yes, you can change your username once every 30 days from your
+              profile settings.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>How do I report inappropriate content?</h3>
+            <p>
+              Use the report button (flag icon) on any post or message, or
+              contact our support team.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Is my information private?</h3>
+            <p>
+              Yes, we take privacy seriously. You can control what information
+              is visible to others in your privacy settings.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_css %}
+<style>
+  /* Enhanced Help Center Styles */
+  .help-container {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(79, 70, 229, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(79, 70, 229, 0.1);
+  }
+
+  .help-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("{{ url_for('static', filename='images/pattern-dots.svg') }}")
+      repeat;
+    opacity: 0.05;
+    z-index: 0;
+  }
+
+  /* Decorative Elements */
+  .decorative-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(
+      135deg,
+      rgba(79, 70, 229, 0.1),
+      rgba(99, 102, 241, 0.1)
+    );
+    filter: blur(20px);
+    z-index: 0;
+  }
+
+  .decorative-circle-1 {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    right: -150px;
+    animation: floatCircle 20s infinite alternate;
+  }
+
+  .decorative-circle-2 {
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    left: -100px;
+    animation: floatCircle 15s infinite alternate-reverse;
+  }
+
+  .decorative-circle-3 {
+    width: 150px;
+    height: 150px;
+    top: 50%;
+    right: -50px;
+    animation: floatCircle 18s infinite alternate;
+  }
+
+  @keyframes floatCircle {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(20px, 20px);
+    }
+  }
+
+  .help-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .help-header h1 {
+    font-size: 3rem;
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .help-header h1::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, #4f46e5, #6366f1);
+    border-radius: 2px;
+  }
+
+  .help-header .subtitle {
+    color: #64748b;
+    font-size: 1.2rem;
+  }
+
+  .help-search {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    z-index: 1;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    padding-right: 3rem;
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    border-radius: 50px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
+    color: #1e293b;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    background: #ffffff;
+  }
+
+  .help-search .search-icon {
+    position: absolute;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #4f46e5;
+    font-size: 1.3rem;
+    transition: color 0.3s ease;
+  }
+
+  .help-search .search-input:focus + .search-icon {
+    color: #6366f1;
+  }
+
+  .help-sections {
+    position: relative;
+    z-index: 1;
+  }
+
+  .help-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(79, 70, 229, 0.1);
+  }
+
+  .help-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .help-section h2 {
+    font-size: 2rem;
+    color: #1e293b;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .help-section .section-icon {
+    color: #4f46e5;
+    font-size: 2.2rem;
+  }
+
+  .help-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .help-card {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(79, 70, 229, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .help-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #4f46e5, #6366f1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .help-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(79, 70, 229, 0.12);
+    border-color: rgba(79, 70, 229, 0.2);
+  }
+
+  .help-card:hover::before {
+    opacity: 1;
+  }
+
+  .help-card h3 {
+    font-size: 1.6rem;
+    color: #334155;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .help-card p {
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .help-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .help-card li {
+    color: #475569;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .help-card li:last-child {
+    margin-bottom: 0;
+  }
+
+  .help-card .list-icon {
+    color: #10b981;
+    font-size: 1.1rem;
+    margin-top: 3px;
+  }
+
+  .faq-list .faq-item {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(79, 70, 229, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 10px rgba(79, 70, 229, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .faq-list .faq-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .faq-list .faq-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.1);
+  }
+
+  .faq-list .faq-item h3 {
+    font-size: 1.4rem;
+    color: #334155;
+    margin-bottom: 0.75rem;
+  }
+
+  .faq-list .faq-item p {
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .help-container {
+      padding: 1.5rem;
+      margin: 2rem 1rem;
+    }
+
+    .help-header h1 {
+      font-size: 2.5rem;
+    }
+
+    .help-header .subtitle {
+      font-size: 1.1rem;
+    }
+
+    .help-search {
+      max-width: 100%;
+    }
+
+    .search-input {
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+      padding-right: 3rem;
+    }
+
+    .help-search .search-icon {
+      font-size: 1.1rem;
+      right: 1rem;
+    }
+
+    .help-section h2 {
+      font-size: 1.6rem;
+      gap: 0.75rem;
+    }
+
+    .help-section .section-icon {
+      font-size: 1.8rem;
+    }
+
+    .help-cards {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .help-card {
+      padding: 1.5rem;
+    }
+
+    .help-card h3 {
+      font-size: 1.4rem;
+    }
+
+    .help-card p {
+      font-size: 1rem;
+    }
+
+    .help-card li {
+      font-size: 1rem;
+      gap: 0.5rem;
+    }
+
+    .help-card .list-icon {
+      font-size: 1rem;
+    }
+
+    .faq-list .faq-item {
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .faq-list .faq-item h3 {
+      font-size: 1.2rem;
+    }
+
+    .faq-list .faq-item p {
+      font-size: 0.95rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .help-container {
+      padding: 1rem;
+      margin: 1rem;
+    }
+
+    .help-header h1 {
+      font-size: 2rem;
+    }
+
+    .help-header .subtitle {
+      font-size: 1rem;
+    }
+
+    .help-section h2 {
+      font-size: 1.4rem;
+      gap: 0.5rem;
+    }
+
+    .help-section .section-icon {
+      font-size: 1.6rem;
+    }
+
+    .help-card h3 {
+      font-size: 1.2rem;
+    }
+
+    .help-card p,
+    .help-card li {
+      font-size: 0.9rem;
+    }
+
+    .help-card .list-icon {
+      font-size: 0.9rem;
+    }
+
+    .faq-list .faq-item h3 {
+      font-size: 1.1rem;
+    }
+
+    .faq-list .faq-item p {
+      font-size: 0.9rem;
+    }
+  }
+</style>
+{% endblock %} {% block extra_scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("helpSearch");
+    const helpSections = document.querySelectorAll(".help-section");
+    const helpCards = document.querySelectorAll(".help-card");
+    const faqItems = document.querySelectorAll(".faq-item");
+
+    searchInput.addEventListener("input", function () {
+      const searchTerm = this.value.toLowerCase();
+
+      // Search through help cards
+      helpCards.forEach((card) => {
+        const text = card.textContent.toLowerCase();
+        const section = card.closest(".help-section");
+        card.style.display = text.includes(searchTerm) ? "block" : "none";
+
+        // Show/hide section headers based on visible cards
+        const visibleCards = section.querySelectorAll(
+          '.help-card[style="display: block"]'
+        );
+        section.style.display = visibleCards.length > 0 ? "block" : "none";
+      });
+
+      // Search through FAQ items
+      faqItems.forEach((item) => {
+        const text = item.textContent.toLowerCase();
+        const section = item.closest(".help-section");
+        item.style.display = text.includes(searchTerm) ? "block" : "none";
+
+        // Show/hide FAQ section header based on visible items
+        const visibleItems = section.querySelectorAll(
+          '.faq-item[style="display: block"]'
+        );
+        section.style.display = visibleItems.length > 0 ? "block" : "none";
+      });
+    });
+  });
+</script>
+{% endblock %}

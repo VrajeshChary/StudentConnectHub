@@ -1,0 +1,585 @@
+{% extends "base.html" %} {% block title %}Contact Us - ConnectNet{% endblock %}
+{% block content %}
+<div class="contact-container">
+  <div class="decorative-circle decorative-circle-1"></div>
+  <div class="decorative-circle decorative-circle-2"></div>
+  <div class="decorative-circle decorative-circle-3"></div>
+
+  <div class="contact-header">
+    <h1>Contact Us</h1>
+    <p class="subtitle">
+      We're here to help! Send us a message and we'll get back to you as soon as
+      possible.
+    </p>
+  </div>
+
+  <div class="contact-content">
+    <div class="contact-info">
+      <div class="info-card">
+        <i class="fas fa-envelope info-icon"></i>
+        <h3>Email Us</h3>
+        <p>For all inquiries:</p>
+        <a href="mailto:hacksmithsunited@gmail.com"
+          >hacksmithsunited@gmail.com</a
+        >
+      </div>
+
+      <div class="info-card">
+        <i class="fas fa-clock info-icon"></i>
+        <h3>Response Time</h3>
+        <p>We typically respond within:</p>
+        <ul>
+          <li>
+            <i class="fas fa-check-circle list-icon"></i> 24 hours for general
+            inquiries
+          </li>
+          <li>
+            <i class="fas fa-check-circle list-icon"></i> 12 hours for technical
+            support
+          </li>
+          <li>
+            <i class="fas fa-check-circle list-icon"></i> 48 hours for feature
+            requests
+          </li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <i class="fas fa-question-circle info-icon"></i>
+        <h3>Quick Help</h3>
+        <p>Before contacting us, you might find answers in our:</p>
+        <ul>
+          <li>
+            <i class="fas fa-arrow-circle-right list-icon"></i>
+            <a href="{{ url_for('faq') }}">FAQ Section</a>
+          </li>
+          <li>
+            <i class="fas fa-arrow-circle-right list-icon"></i>
+            <a href="{{ url_for('help') }}">Help Center</a>
+          </li>
+          <li>
+            <i class="fas fa-arrow-circle-right list-icon"></i>
+            <a href="{{ url_for('features') }}">Features Guide</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <form method="POST" class="contact-form">
+      <div class="form-group">
+        <label for="name">Your Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          placeholder="Enter your name"
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          placeholder="Enter your email"
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="subject">Subject</label>
+        <select id="subject" name="subject" required class="form-control">
+          <option value="">Select a subject</option>
+          <option value="general">General Inquiry</option>
+          <option value="technical">Technical Support</option>
+          <option value="feature">Feature Request</option>
+          <option value="bug">Report a Bug</option>
+          <option value="feedback">Feedback</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="6"
+          required
+          placeholder="How can we help you?"
+          class="form-control"
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-paper-plane"></i> Send Message
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %} {% block extra_css %}
+<style>
+  /* Enhanced Contact Us Styles */
+  .contact-container {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(79, 70, 229, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(79, 70, 229, 0.1);
+  }
+
+  .contact-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("{{ url_for('static', filename='images/pattern-grid.svg') }}")
+      repeat;
+    opacity: 0.05;
+    z-index: 0;
+  }
+
+  /* Decorative Elements */
+  .decorative-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(
+      135deg,
+      rgba(79, 70, 229, 0.1),
+      rgba(99, 102, 241, 0.1)
+    );
+    filter: blur(20px);
+    z-index: 0;
+  }
+
+  .decorative-circle-1 {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    left: -150px;
+    animation: floatCircle 20s infinite alternate;
+  }
+
+  .decorative-circle-2 {
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    right: -100px;
+    animation: floatCircle 15s infinite alternate-reverse;
+  }
+
+  .decorative-circle-3 {
+    width: 150px;
+    height: 150px;
+    top: 20%;
+    right: -50px;
+    animation: floatCircle 18s infinite alternate;
+  }
+
+  @keyframes floatCircle {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(20px, 20px);
+    }
+  }
+
+  .contact-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .contact-header h1 {
+    font-size: 3rem;
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .contact-header h1::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, #4f46e5, #6366f1);
+    border-radius: 2px;
+  }
+
+  .contact-header .subtitle {
+    color: #64748b;
+    font-size: 1.2rem;
+  }
+
+  .contact-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .contact-info {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .info-card {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(79, 70, 229, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(79, 70, 229, 0.12);
+    border-color: rgba(79, 70, 229, 0.2);
+  }
+
+  .info-card .info-icon {
+    font-size: 2.5rem;
+    color: #4f46e5;
+    margin-bottom: 1rem;
+  }
+
+  .info-card h3 {
+    font-size: 1.6rem;
+    color: #334155;
+    margin-bottom: 0.75rem;
+  }
+
+  .info-card p {
+    color: #64748b;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .info-card a {
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .info-card a:hover {
+    color: #6366f1;
+    text-decoration: underline;
+  }
+
+  .info-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+  }
+
+  .info-card li {
+    color: #475569;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .info-card li:last-child {
+    margin-bottom: 0;
+  }
+
+  .info-card .list-icon {
+    color: #10b981;
+    font-size: 1.1rem;
+    margin-top: 3px;
+  }
+
+  .contact-form {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(79, 70, 229, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.08);
+  }
+
+  .contact-form .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+
+  .contact-form .form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #1e293b;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .contact-form .form-control:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    background: #ffffff;
+  }
+
+  .contact-form select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%234f46e5' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+    background-size: 12px;
+  }
+
+  .contact-form textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .contact-form .form-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .contact-form .btn {
+    padding: 0.75rem 2rem;
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-form .btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      45deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  .contact-form .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+  }
+
+  .contact-form .btn:hover::before {
+    transform: translateX(100%);
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 992px) {
+    .contact-content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .contact-container {
+      padding: 1.5rem;
+      margin: 2rem 1rem;
+    }
+
+    .contact-header h1 {
+      font-size: 2.5rem;
+    }
+
+    .contact-header .subtitle {
+      font-size: 1.1rem;
+    }
+
+    .contact-info {
+      gap: 1.5rem;
+    }
+
+    .info-card {
+      padding: 1.5rem;
+    }
+
+    .info-card .info-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .info-card h3 {
+      font-size: 1.4rem;
+    }
+
+    .info-card p,
+    .info-card li,
+    .info-card a {
+      font-size: 1rem;
+    }
+
+    .info-card .list-icon {
+      font-size: 1rem;
+    }
+
+    .contact-form {
+      padding: 1.5rem;
+    }
+
+    .contact-form .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .contact-form label {
+      font-size: 0.9rem;
+    }
+
+    .contact-form .form-control {
+      padding: 0.6rem 0.8rem;
+      font-size: 0.95rem;
+    }
+
+    .contact-form select.form-control {
+      padding-right: 2rem;
+      background-position: right 0.8rem center;
+    }
+
+    .contact-form textarea.form-control {
+      min-height: 100px;
+    }
+
+    .contact-form .btn {
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .contact-container {
+      padding: 1rem;
+      margin: 1rem;
+    }
+
+    .contact-header h1 {
+      font-size: 2rem;
+    }
+
+    .contact-header .subtitle {
+      font-size: 1rem;
+    }
+
+    .info-card h3 {
+      font-size: 1.2rem;
+    }
+
+    .info-card p,
+    .info-card li,
+    .info-card a {
+      font-size: 0.9rem;
+    }
+
+    .info-card .list-icon {
+      font-size: 0.9rem;
+    }
+
+    .contact-form .form-group {
+      margin-bottom: 0.8rem;
+    }
+
+    .contact-form label {
+      font-size: 0.85rem;
+    }
+
+    .contact-form .form-control {
+      padding: 0.5rem 0.7rem;
+      font-size: 0.9rem;
+    }
+
+    .contact-form select.form-control {
+      padding-right: 1.5rem;
+      background-position: right 0.7rem center;
+      background-size: 10px;
+    }
+
+    .contact-form textarea.form-control {
+      min-height: 80px;
+    }
+
+    .contact-form .btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+  }
+</style>
+{% endblock %} {% block extra_scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector(".contact-form");
+    const messageTextarea = document.getElementById("message");
+
+    // Auto-resize textarea
+    messageTextarea.addEventListener("input", function () {
+      this.style.height = "auto";
+      this.style.height = this.scrollHeight + "px";
+    });
+
+    // Form validation
+    form.addEventListener("submit", function (e) {
+      const email = document.getElementById("email").value;
+      const subject = document.getElementById("subject").value;
+      const message = document.getElementById("message").value;
+
+      if (!email || !subject || !message) {
+        e.preventDefault();
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+      // Basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        e.preventDefault();
+        alert("Please enter a valid email address.");
+        return;
+      }
+    });
+  });
+</script>
+{% endblock %}

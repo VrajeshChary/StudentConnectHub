@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block title %}Create Event - ConnectNet{% endblock %}
+
+{% block content %}
+<div class="create-event-container">
+    <div class="create-event-header">
+        <h1>Create New Event</h1>
+        <p>Organize an event for your fellow students</p>
+    </div>
+
+    <form method="POST" class="create-event-form">
+        <div class="form-group">
+            <label for="title">Event Title</label>
+            <input type="text" id="title" name="title" required
+                   placeholder="Enter event title"
+                   class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4"
+                      placeholder="Describe your event"
+                      class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" name="location"
+                   placeholder="Enter event location"
+                   class="form-control">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="start_time">Start Time</label>
+                <input type="datetime-local" id="start_time" name="start_time" required
+                       class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="end_time">End Time</label>
+                <input type="datetime-local" id="end_time" name="end_time" required
+                       class="form-control">
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a href="{{ url_for('events') }}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Create Event</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.create-event-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+}
+
+.create-event-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.create-event-header h1 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+}
+
+.create-event-header p {
+    color: var(--secondary-color);
+}
+
+.create-event-form {
+    background-color: var(--card-bg);
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.form-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+}
+
+label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: var(--transition-base);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color-light);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+}
+
+@media (max-width: 768px) {
+    .create-event-container {
+        padding: var(--spacing-md);
+    }
+
+    .create-event-form {
+        padding: var(--spacing-lg);
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const startTimeInput = document.getElementById('start_time');
+    const endTimeInput = document.getElementById('end_time');
+
+    // Set min datetime to now
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    
+    const minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+    startTimeInput.min = minDateTime;
+    endTimeInput.min = minDateTime;
+
+    // Update end time min when start time changes
+    startTimeInput.addEventListener('change', function() {
+        endTimeInput.min = this.value;
+        if (endTimeInput.value && endTimeInput.value < this.value) {
+            endTimeInput.value = this.value;
+        }
+    });
+});
+</script>
+{% endblock %} 

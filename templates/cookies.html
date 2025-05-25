@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+
+{% block title %}Cookie Policy - ConnectNet{% endblock %}
+
+{% block content %}
+<div class="cookies-container">
+    <div class="cookies-header">
+        <h1>Cookie Policy</h1>
+        <p class="subtitle">Last updated: {{ current_date.strftime('%B %d, %Y') }}</p>
+    </div>
+
+    <div class="cookies-content">
+        <section class="cookies-section">
+            <h2>What Are Cookies?</h2>
+            <p>Cookies are small text files that are placed on your device when you visit our website. They help us provide you with a better experience by enabling certain features and functionality. Cookies can be "persistent" or "session" cookies. Persistent cookies remain on your device when you go offline, while session cookies are deleted as soon as you close your web browser.</p>
+        </section>
+
+        <section class="cookies-section">
+            <h2>How We Use Cookies</h2>
+            <div class="info-card">
+                <h3>Essential Cookies</h3>
+                <p>These cookies are necessary for the website to function properly. They enable basic functions like page navigation and access to secure areas of the website.</p>
+                <ul>
+                    <li>Authentication cookies</li>
+                    <li>Security cookies</li>
+                    <li>Session management</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3>Functional Cookies</h3>
+                <p>These cookies enable enhanced functionality and personalization. They may be set by us or by third-party providers whose services we have added to our pages.</p>
+                <ul>
+                    <li>Language preferences</li>
+                    <li>User interface customization</li>
+                    <li>Remembering your settings</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3>Analytics Cookies</h3>
+                <p>These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously.</p>
+                <ul>
+                    <li>Page visit statistics</li>
+                    <li>User behavior analysis</li>
+                    <li>Performance monitoring</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="cookies-section">
+            <h2>Third-Party Cookies</h2>
+            <p>Some cookies are placed by third-party services that appear on our pages. We use trusted third-party services that track this information on our behalf.</p>
+            <div class="info-card">
+                <h3>Third-Party Services</h3>
+                <ul>
+                    <li>Google Analytics for website usage analysis</li>
+                    <li>Social media plugins for sharing content</li>
+                    <li>Payment processors for secure transactions</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="cookies-section">
+            <h2>Managing Cookies</h2>
+            <p>You can control and/or delete cookies as you wish. You can delete all cookies that are already on your computer and you can set most browsers to prevent them from being placed.</p>
+            <div class="info-card">
+                <h3>Browser Settings</h3>
+                <p>Most web browsers allow you to control cookies through their settings preferences. However, limiting cookies may impact your experience using our website.</p>
+                <ul>
+                    <li>Chrome: Settings → Privacy and Security → Cookies</li>
+                    <li>Firefox: Options → Privacy & Security → Cookies</li>
+                    <li>Safari: Preferences → Privacy → Cookies</li>
+                    <li>Edge: Settings → Cookies and site permissions</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="cookies-section">
+            <h2>Cookie Consent</h2>
+            <p>When you first visit our website, we will ask for your consent to set cookies on your device. You can choose to accept all cookies, only essential cookies, or customize your preferences.</p>
+            <div class="info-card">
+                <h3>Your Choices</h3>
+                <ul>
+                    <li>Accept all cookies</li>
+                    <li>Accept only essential cookies</li>
+                    <li>Customize cookie preferences</li>
+                    <li>Withdraw consent at any time</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="cookies-section">
+            <h2>Updates to This Policy</h2>
+            <p>We may update this Cookie Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. We encourage you to periodically review this page for the latest information on our cookie practices.</p>
+        </section>
+
+        <section class="cookies-section">
+            <h2>Contact Us</h2>
+            <p>If you have any questions about our Cookie Policy, please contact us:</p>
+            <div class="contact-info">
+                <a href="{{ url_for('contact') }}" class="btn btn-primary">
+                    <i class="fas fa-envelope"></i> Contact Support
+                </a>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.cookies-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: var(--spacing-xl);
+}
+
+.cookies-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.cookies-header h1 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+    font-size: 2.5rem;
+}
+
+.cookies-header .subtitle {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+}
+
+.cookies-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.cookies-section {
+    background-color: var(--card-bg);
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.cookies-section h2 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: var(--spacing-sm);
+}
+
+.cookies-section p {
+    color: var(--text-color);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+}
+
+.info-card {
+    background-color: var(--bg-color);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-lg);
+}
+
+.info-card h3 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.3rem;
+}
+
+.info-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-card li {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-sm);
+    padding-left: var(--spacing-lg);
+    position: relative;
+}
+
+.info-card li:before {
+    content: "•";
+    color: var(--primary-color);
+    position: absolute;
+    left: var(--spacing-sm);
+}
+
+.contact-info {
+    text-align: center;
+    margin-top: var(--spacing-lg);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-base);
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color-dark);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .cookies-container {
+        padding: var(--spacing-lg);
+    }
+
+    .cookies-header h1 {
+        font-size: 2rem;
+    }
+
+    .cookies-section {
+        padding: var(--spacing-lg);
+    }
+
+    .cookies-section h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cookies-container {
+        padding: var(--spacing-md);
+    }
+
+    .cookies-section {
+        padding: var(--spacing-md);
+    }
+
+    .info-card {
+        padding: var(--spacing-md);
+    }
+}
+</style>
+{% endblock %} 

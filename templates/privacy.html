@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy Policy - ConnectNet{% endblock %}
+
+{% block content %}
+<div class="privacy-container">
+    <div class="privacy-header">
+        <h1>Privacy Policy</h1>
+        <p class="subtitle">Last updated: {{ current_date.strftime('%B %d, %Y') }}</p>
+    </div>
+
+    <div class="privacy-content">
+        <section class="privacy-section">
+            <h2>Introduction</h2>
+            <p>At ConnectNet, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the platform.</p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>Information We Collect</h2>
+            <div class="info-card">
+                <h3>Personal Information</h3>
+                <ul>
+                    <li>Name and username</li>
+                    <li>Email address</li>
+                    <li>Academic information (major, year)</li>
+                    <li>Profile information and bio</li>
+                    <li>Profile picture (optional)</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3>Usage Information</h3>
+                <ul>
+                    <li>Chat messages and communications</li>
+                    <li>Event attendance and participation</li>
+                    <li>Blog posts and comments</li>
+                    <li>Network connections and interactions</li>
+                    <li>Platform usage patterns</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="privacy-section">
+            <h2>How We Use Your Information</h2>
+            <div class="info-card">
+                <h3>Primary Uses</h3>
+                <ul>
+                    <li>To provide and maintain our platform</li>
+                    <li>To facilitate networking between users</li>
+                    <li>To manage events and communications</li>
+                    <li>To improve user experience</li>
+                    <li>To send important updates and notifications</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3>Data Protection</h3>
+                <ul>
+                    <li>We implement security measures to protect your data</li>
+                    <li>We limit access to personal information</li>
+                    <li>We regularly update our security practices</li>
+                    <li>We encrypt sensitive data</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="privacy-section">
+            <h2>Your Rights</h2>
+            <div class="info-card">
+                <h3>You have the right to:</h3>
+                <ul>
+                    <li>Access your personal data</li>
+                    <li>Correct inaccurate data</li>
+                    <li>Request deletion of your data</li>
+                    <li>Export your data</li>
+                    <li>Opt-out of communications</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="privacy-section">
+            <h2>Cookies and Tracking</h2>
+            <p>We use cookies and similar tracking technologies to track activity on our platform and hold certain information. Cookies are files with a small amount of data that may include an anonymous unique identifier.</p>
+            <div class="info-card">
+                <h3>Types of Cookies We Use</h3>
+                <ul>
+                    <li>Essential cookies for platform functionality</li>
+                    <li>Authentication cookies for user sessions</li>
+                    <li>Preference cookies for user settings</li>
+                    <li>Analytics cookies for platform improvement</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="privacy-section">
+            <h2>Contact Us</h2>
+            <p>If you have any questions about this Privacy Policy, please contact us:</p>
+            <div class="contact-info">
+                <a href="{{ url_for('contact') }}" class="btn btn-primary">
+                    <i class="fas fa-envelope"></i> Contact Support
+                </a>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.privacy-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: var(--spacing-xl);
+}
+
+.privacy-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.privacy-header h1 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+    font-size: 2.5rem;
+}
+
+.privacy-header .subtitle {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+}
+
+.privacy-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.privacy-section {
+    background-color: var(--card-bg);
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.privacy-section h2 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: var(--spacing-sm);
+}
+
+.privacy-section p {
+    color: var(--text-color);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+}
+
+.info-card {
+    background-color: var(--bg-color);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-lg);
+}
+
+.info-card h3 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.3rem;
+}
+
+.info-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-card li {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-sm);
+    padding-left: var(--spacing-lg);
+    position: relative;
+}
+
+.info-card li:before {
+    content: "•";
+    color: var(--primary-color);
+    position: absolute;
+    left: var(--spacing-sm);
+}
+
+.contact-info {
+    text-align: center;
+    margin-top: var(--spacing-lg);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-base);
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color-dark);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .privacy-container {
+        padding: var(--spacing-lg);
+    }
+
+    .privacy-header h1 {
+        font-size: 2rem;
+    }
+
+    .privacy-section {
+        padding: var(--spacing-lg);
+    }
+
+    .privacy-section h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .privacy-container {
+        padding: var(--spacing-md);
+    }
+
+    .privacy-section {
+        padding: var(--spacing-md);
+    }
+
+    .info-card {
+        padding: var(--spacing-md);
+    }
+}
+</style>
+{% endblock %} 

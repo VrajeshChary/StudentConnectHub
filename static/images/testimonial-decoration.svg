@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="100" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        :root {
+            --testimonial-primary: var(--svg-primary);
+            --testimonial-secondary: var(--svg-secondary);
+            --testimonial-opacity-light: var(--svg-opacity-light);
+            --testimonial-opacity-medium: var(--svg-opacity-medium);
+        }
+    </style>
+    
+    <!-- Quote Marks -->
+    <g fill="var(--testimonial-primary)" opacity="var(--testimonial-opacity-medium)">
+        <!-- Left Quote -->
+        <path d="M40 30 Q50 20 60 30 Q50 40 40 30" transform="rotate(-10)"/>
+        <path d="M30 40 Q40 30 50 40 Q40 50 30 40" transform="rotate(-10)"/>
+        
+        <!-- Right Quote -->
+        <path d="M140 30 Q150 20 160 30 Q150 40 140 30" transform="rotate(10)"/>
+        <path d="M130 40 Q140 30 150 40 Q140 50 130 40" transform="rotate(10)"/>
+    </g>
+    
+    <!-- Decorative Lines -->
+    <g stroke="var(--testimonial-primary)" stroke-width="1" opacity="var(--testimonial-opacity-light)">
+        <path d="M20 50 Q50 30 80 50" fill="none"/>
+        <path d="M120 50 Q150 30 180 50" fill="none"/>
+    </g>
+    
+    <!-- Stars -->
+    <g fill="var(--testimonial-secondary)" opacity="var(--testimonial-opacity-medium)">
+        <!-- Star 1 -->
+        <path d="M50 20 L52 25 L57 25 L53 28 L55 33 L50 30 L45 33 L47 28 L43 25 L48 25 Z"/>
+        <!-- Star 2 -->
+        <path d="M150 20 L152 25 L157 25 L153 28 L155 33 L150 30 L145 33 L147 28 L143 25 L148 25 Z"/>
+        <!-- Star 3 -->
+        <path d="M100 70 L102 75 L107 75 L103 78 L105 83 L100 80 L95 83 L97 78 L93 75 L98 75 Z"/>
+    </g>
+    
+    <!-- Animated Elements -->
+    <circle cx="100" cy="50" r="30" fill="none" stroke="var(--testimonial-primary)" stroke-width="1" opacity="var(--testimonial-opacity-light)">
+        <animate attributeName="r" values="30;35;30" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="var(--testimonial-opacity-light);0;var(--testimonial-opacity-light)" dur="3s" repeatCount="indefinite"/>
+    </circle>
+</svg> 

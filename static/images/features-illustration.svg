@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        :root {
+            --feature-primary: var(--svg-primary);
+            --feature-secondary: var(--svg-secondary);
+            --feature-bg: var(--svg-background);
+            --feature-opacity-light: var(--svg-opacity-light);
+            --feature-opacity-medium: var(--svg-opacity-medium);
+        }
+    </style>
+    
+    <!-- Background Elements -->
+    <rect x="20" y="20" width="360" height="260" rx="20" fill="var(--feature-bg)" opacity="var(--feature-opacity-light)"/>
+    
+    <!-- Feature Icons -->
+    <g transform="translate(50, 50)">
+        <!-- Chat Feature -->
+        <g transform="translate(0, 0)">
+            <rect x="0" y="0" width="80" height="80" rx="10" fill="var(--feature-primary)" opacity="var(--feature-opacity-light)"/>
+            <path d="M20 30h40M20 45h30M20 60h20" stroke="var(--feature-primary)" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="65" cy="25" r="5" fill="var(--feature-notification)"/>
+        </g>
+        
+        <!-- Network Feature -->
+        <g transform="translate(100, 0)">
+            <rect x="0" y="0" width="80" height="80" rx="10" fill="var(--feature-primary)" opacity="var(--feature-opacity-light)"/>
+            <circle cx="40" cy="40" r="20" fill="none" stroke="var(--feature-primary)" stroke-width="2"/>
+            <circle cx="40" cy="25" r="3" fill="var(--feature-primary)"/>
+            <circle cx="25" cy="45" r="3" fill="var(--feature-primary)"/>
+            <circle cx="55" cy="45" r="3" fill="var(--feature-primary)"/>
+            <line x1="40" y1="25" x2="25" y2="45" stroke="var(--feature-primary)" stroke-width="2"/>
+            <line x1="40" y1="25" x2="55" y2="45" stroke="var(--feature-primary)" stroke-width="2"/>
+            <line x1="25" y1="45" x2="55" y2="45" stroke="var(--feature-primary)" stroke-width="2"/>
+        </g>
+        
+        <!-- Profile Feature -->
+        <g transform="translate(200, 0)">
+            <rect x="0" y="0" width="80" height="80" rx="10" fill="var(--feature-primary)" opacity="var(--feature-opacity-light)"/>
+            <circle cx="40" cy="30" r="15" fill="var(--feature-primary)"/>
+            <path d="M20 70 Q40 50 60 70" stroke="var(--feature-primary)" stroke-width="3" fill="none"/>
+        </g>
+        
+        <!-- Search Feature -->
+        <g transform="translate(0, 100)">
+            <rect x="0" y="0" width="80" height="80" rx="10" fill="var(--feature-primary)" opacity="var(--feature-opacity-light)"/>
+            <circle cx="35" cy="35" r="15" fill="none" stroke="var(--feature-primary)" stroke-width="3"/>
+            <line x1="45" y1="45" x2="55" y2="55" stroke="var(--feature-primary)" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        
+        <!-- Calendar Feature -->
+        <g transform="translate(100, 100)">
+            <rect x="0" y="0" width="80" height="80" rx="10" fill="var(--feature-primary)" opacity="var(--feature-opacity-light)"/>
+            <rect x="15" y="20" width="50" height="45" rx="5" fill="none" stroke="var(--feature-primary)" stroke-width="2"/>
+            <line x1="15" y1="30" x2="65" y2="30" stroke="var(--feature-primary)" stroke-width="2"/>
+            <circle cx="25" cy="45" r="3" fill="var(--feature-primary)"/>
+            <circle cx="40" cy="45" r="3" fill="var(--feature-primary)"/>
+            <circle cx="55" cy="45" r="3" fill="var(--feature-primary)"/>
+            <circle cx="25" cy="60" r="3" fill="var(--feature-primary)"/>
+            <circle cx="40" cy="60" r="3" fill="var(--feature-primary)"/>
+        </g>
+        
+        <!-- Settings Feature -->
+        <g transform="translate(200, 100)">
+            <rect x="0" y="0" width="80" height="80" rx="10" fill="var(--feature-primary)" opacity="var(--feature-opacity-light)"/>
+            <circle cx="40" cy="40" r="20" fill="none" stroke="var(--feature-primary)" stroke-width="2"/>
+            <circle cx="40" cy="40" r="5" fill="var(--feature-primary)"/>
+            <path d="M40 20 L40 15 M40 65 L40 60 M20 40 L15 40 M65 40 L60 40" 
+                  stroke="var(--feature-primary)" stroke-width="2" stroke-linecap="round"/>
+        </g>
+    </g>
+    
+    <!-- Decorative Elements -->
+    <g fill="var(--feature-secondary)" opacity="var(--feature-opacity-light)">
+        <circle cx="30" cy="30" r="5"/>
+        <circle cx="370" cy="30" r="5"/>
+        <circle cx="30" cy="270" r="5"/>
+        <circle cx="370" cy="270" r="5"/>
+    </g>
+</svg> 

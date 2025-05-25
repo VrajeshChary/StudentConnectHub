@@ -1,0 +1,521 @@
+{% extends "base.html" %} {% block title %}Register - ConnectNet{% endblock %}
+{% block extra_css %}
+<style>
+  /* Enhanced Registration Page Styles */
+  .register-container {
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(79, 70, 229, 0.1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(79, 70, 229, 0.1);
+  }
+
+  /* Decorative Elements */
+  .register-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #4f46e5, #6366f1);
+  }
+
+  .register-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("{{ url_for('static', filename='images/pattern-grid.svg') }}")
+      repeat;
+    opacity: 0.05;
+    z-index: 0;
+  }
+
+  .decorative-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(
+      135deg,
+      rgba(79, 70, 229, 0.1),
+      rgba(99, 102, 241, 0.1)
+    );
+    filter: blur(20px);
+    z-index: 0;
+  }
+
+  .decorative-circle-1 {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    right: -150px;
+    animation: floatCircle 20s infinite alternate;
+  }
+
+  .decorative-circle-2 {
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    left: -100px;
+    animation: floatCircle 15s infinite alternate-reverse;
+  }
+
+  .register-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .register-header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .register-header h1::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, #4f46e5, #6366f1);
+    border-radius: 2px;
+  }
+
+  .register-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+  }
+
+  .register-form {
+    position: relative;
+    z-index: 1;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    padding-left: 2.5rem;
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #1e293b;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    background: #ffffff;
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 2.5rem;
+    color: #4f46e5;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus + .input-icon {
+    color: #6366f1;
+    transform: scale(1.1);
+  }
+
+  .form-group .btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .form-group .btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      45deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  .form-group .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+  }
+
+  .form-group .btn:hover::before {
+    transform: translateX(100%);
+  }
+
+  .login-link {
+    text-align: center;
+    margin-top: 2rem;
+    color: #64748b;
+    font-size: 0.95rem;
+  }
+
+  .login-link a {
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .login-link a:hover {
+    color: #6366f1;
+    text-decoration: underline;
+  }
+
+  /* Error and Success Messages */
+  .error-message {
+    color: #ef4444;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+
+  .error-message i {
+    font-size: 1rem;
+  }
+
+  .success-message {
+    color: #10b981;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+
+  .success-message i {
+    font-size: 1rem;
+  }
+
+  /* Password Strength Indicator */
+  .password-strength {
+    height: 4px;
+    background: #e2e8f0;
+    border-radius: 2px;
+    margin-top: 0.5rem;
+    overflow: hidden;
+  }
+
+  .password-strength-bar {
+    height: 100%;
+    width: 0;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+  }
+
+  .strength-weak {
+    background: #ef4444;
+    width: 33.33%;
+  }
+  .strength-medium {
+    background: #f59e0b;
+    width: 66.66%;
+  }
+  .strength-strong {
+    background: #10b981;
+    width: 100%;
+  }
+
+  /* Animations */
+  @keyframes floatCircle {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    100% {
+      transform: translate(20px, 20px) rotate(180deg);
+    }
+  }
+
+  @keyframes pulseIcon {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.1;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.2;
+    }
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .register-container {
+      margin: 2rem 1rem;
+      padding: 1.5rem;
+    }
+
+    .register-header h1 {
+      font-size: 2rem;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .form-group .btn {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .register-container {
+      margin: 1rem;
+      padding: 1.25rem;
+    }
+
+    .register-header h1 {
+      font-size: 1.75rem;
+    }
+
+    .form-control {
+      font-size: 0.95rem;
+    }
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="register-container">
+  <div class="decorative-circle decorative-circle-1"></div>
+  <div class="decorative-circle decorative-circle-2"></div>
+
+  <div class="register-header">
+    <h1>Create Account</h1>
+    <p>Join ConnectNet and start building your student network today</p>
+  </div>
+
+  <form class="register-form" method="POST" action="{{ url_for('register') }}">
+    {{ form.hidden_tag() }}
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="first_name">First Name</label>
+        {{ form.first_name(class="form-control", placeholder="Enter your first
+        name") }}
+        <i class="fas fa-user input-icon"></i>
+        {% if form.first_name.errors %}
+        <div class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ form.first_name.errors[0] }}
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="last_name">Last Name</label>
+        {{ form.last_name(class="form-control", placeholder="Enter your last
+        name") }}
+        <i class="fas fa-user input-icon"></i>
+        {% if form.last_name.errors %}
+        <div class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ form.last_name.errors[0] }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      {{ form.email(class="form-control", placeholder="Enter your email") }}
+      <i class="fas fa-envelope input-icon"></i>
+      {% if form.email.errors %}
+      <div class="error-message">
+        <i class="fas fa-exclamation-circle"></i>
+        {{ form.email.errors[0] }}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="username">Username</label>
+      {{ form.username(class="form-control", placeholder="Choose a username") }}
+      <i class="fas fa-at input-icon"></i>
+      {% if form.username.errors %}
+      <div class="error-message">
+        <i class="fas fa-exclamation-circle"></i>
+        {{ form.username.errors[0] }}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="password">Password</label>
+        {{ form.password(class="form-control", placeholder="Create a password",
+        id="password") }}
+        <i class="fas fa-lock input-icon"></i>
+        <div class="password-strength">
+          <div class="password-strength-bar" id="password-strength-bar"></div>
+        </div>
+        {% if form.password.errors %}
+        <div class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ form.password.errors[0] }}
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="confirm_password">Confirm Password</label>
+        {{ form.confirm_password(class="form-control", placeholder="Confirm your
+        password") }}
+        <i class="fas fa-lock input-icon"></i>
+        {% if form.confirm_password.errors %}
+        <div class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ form.confirm_password.errors[0] }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="university">University</label>
+        {{ form.university(class="form-control", placeholder="Enter your
+        university") }}
+        <i class="fas fa-university input-icon"></i>
+        {% if form.university.errors %}
+        <div class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ form.university.errors[0] }}
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="major">Major</label>
+        {{ form.major(class="form-control", placeholder="Enter your major") }}
+        <i class="fas fa-graduation-cap input-icon"></i>
+        {% if form.major.errors %}
+        <div class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ form.major.errors[0] }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="form-group">{{ form.submit(class="btn") }}</div>
+  </form>
+
+  <div class="login-link">
+    Already have an account? <a href="{{ url_for('login') }}">Log in here</a>
+  </div>
+</div>
+{% endblock %} {% block extra_scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const passwordInput = document.getElementById("password");
+    const strengthBar = document.getElementById("password-strength-bar");
+
+    passwordInput.addEventListener("input", function () {
+      const password = this.value;
+      let strength = 0;
+
+      // Length check
+      if (password.length >= 8) strength += 1;
+
+      // Contains number
+      if (/\d/.test(password)) strength += 1;
+
+      // Contains special character
+      if (/[!@#$%^&*]/.test(password)) strength += 1;
+
+      // Contains uppercase and lowercase
+      if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength += 1;
+
+      // Update strength bar
+      strengthBar.className = "password-strength-bar";
+      if (strength <= 1) {
+        strengthBar.classList.add("strength-weak");
+      } else if (strength <= 3) {
+        strengthBar.classList.add("strength-medium");
+      } else {
+        strengthBar.classList.add("strength-strong");
+      }
+    });
+
+    // Form validation
+    const form = document.querySelector(".register-form");
+    form.addEventListener("submit", function (e) {
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.querySelector(
+        '[name="confirm_password"]'
+      ).value;
+
+      if (password !== confirmPassword) {
+        e.preventDefault();
+        alert("Passwords do not match!");
+        return;
+      }
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        :root {
+            --icon-primary: var(--svg-primary);
+            --icon-opacity-light: var(--svg-opacity-light);
+            --icon-opacity-medium: var(--svg-opacity-medium);
+        }
+    </style>
+    
+    <!-- Background Circle -->
+    <circle cx="12" cy="12" r="11" fill="var(--icon-primary)" opacity="var(--icon-opacity-light)"/>
+    
+    <!-- Network Nodes -->
+    <g fill="var(--icon-primary)">
+        <circle cx="12" cy="6" r="2"/>
+        <circle cx="6" cy="12" r="2"/>
+        <circle cx="18" cy="12" r="2"/>
+        <circle cx="12" cy="18" r="2"/>
+    </g>
+    
+    <!-- Connection Lines -->
+    <g stroke="var(--icon-primary)" stroke-width="1.5" stroke-linecap="round">
+        <line x1="12" y1="8" x2="12" y2="16"/>
+        <line x1="8" y1="12" x2="16" y2="12"/>
+        <line x1="9" y1="9" x2="15" y2="15"/>
+        <line x1="15" y1="9" x2="9" y2="15"/>
+    </g>
+    
+    <!-- Pulse Animation -->
+    <circle cx="12" cy="12" r="11" fill="none" stroke="var(--icon-primary)" stroke-width="1" opacity="var(--icon-opacity-medium)">
+        <animate attributeName="r" values="11;13;11" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="var(--icon-opacity-medium);0;var(--icon-opacity-medium)" dur="2s" repeatCount="indefinite"/>
+    </circle>
+</svg> 
